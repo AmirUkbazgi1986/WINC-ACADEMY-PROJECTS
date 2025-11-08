@@ -4,8 +4,159 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Sign Up</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="signup.css" />
+    <script src="index.js"></script>
   </head>
   <body>
-    <p>Sign up page</p>
+    <div class="container">
+      <header>
+        <h1>Create Your LoveConnect Account</h1>
+        <nav>
+          <ul>
+            <li><a href="/index.html">Home Page</a></li>
+            <li><a href="/review.html">Review Page</a></li>
+            <li><a href="/people.html">People Page</a></li>
+          </ul>
+        </nav>
+      </header>
+      <main>
+        <section>
+          <p>Creating an account only takes 2 minutes!</p>
+          <p>We never share your personal information without your consent.</p>
+          <p>Your profile helps you meet compatible people faster.</p>
+        </section>
+
+        <form action="">
+          <div>
+            <h3>Full Name</h3>
+
+            <label for="fullName">Full Name</label>
+            <input
+              type="text"
+              placeholder="John Doe"
+              id="fullName"
+              name="fullName"
+            />
+          </div>
+          <div>
+            <h3>Email Address</h3>
+
+            <label for="email">Email Address</label>
+            <input
+              type="email"
+              placeholder="you@example.com"
+              id="email"
+              name="Email"
+            />
+          </div>
+          <div>
+            <h3>Password</h3>
+
+            <label for="password">Password</label>
+            <input
+              type="password"
+              placeholder="Create a strong password"
+              id="password"
+              name="password"
+            />
+          </div>
+          <div>
+            <h3>Confirm Password</h3>
+
+            <label for="confirmPassword">Confirm Password</label>
+            <input
+              type="password"
+              id="confirmPassword"
+              name="confirmPassword"
+            />
+          </div>
+          <div>
+            <h3>Date of Birth</h3>
+
+            <label for="date">Date of Birth</label>
+            <input type="date" placeholder="MM/DD/YYYY" id="date" name="date" />
+          </div>
+          <div>
+            <h3>Gender</h3>
+
+            <input type="radio" id="gender" name="gender" value="male" />
+            <label for="gender">Male</label>
+            <input type="radio" id="gender" name="gender" value="female" />
+            <label for="gender">Female</label>
+            <input type="radio" id="gender" name="gender" value="Non-binary" />
+            <label for="gender">Non-binary</label>
+            <input
+              type="radio"
+              id="gender"
+              name="gender"
+              value="Prefer not to say"
+            />
+            <label for="gender">Prefer not to say</label>
+          </div>
+          <div>
+            <h3>Looking For</h3>
+
+            <label for="lookFor">I’m looking for</label>
+            <select name="lookFor" id="lookFor">
+              <option value="Friendship">Friendship</option>
+              <option value="Dating / Relationship">
+                Dating / Relationship
+              </option>
+              <option value="Networking">Networking</option>
+            </select>
+          </div>
+          <div>
+            <h3>Location</h3>
+
+            <label for="location">Location</label>
+            <input
+              type="text"
+              placeholder="City, Country"
+              id="location"
+              name="location"
+            />
+          </div>
+          <div>
+            <h3>Interests / Hobbies (Optional but recommended)</h3>
+
+            <label for="interest">Your Interests</label>
+            <!-- <input
+            type="text"
+            placeholder="Traveling, Cooking, Music…"
+            name="interest"
+            id="interest"
+          /> -->
+            <textarea
+              placeholder="Traveling, Cooking, Music…"
+              name="interest"
+              id="interest"
+            ></textarea>
+          </div>
+          <button type="submit">sign up Now</button>
+          <p>
+            Privacy Note: “By signing up, you agree to our Terms of Service and
+            Privacy Policy.”
+          </p>
+          <p>
+            Already have an account? “Log in here” <a href="login">Login</a>
+          </p>
+          <p>
+            Optional Social Sign-Up: “Or sign up with Facebook / Google / Apple”
+          </p>
+        </form>
+      </main>
+      <footer>
+        <p>&copy; 2025 LoveConnect. All rights reserved.</p>
+        <p>Find your perfect match today ❤️</p>
+      </footer>
+    </div>
   </body>
 </html>
