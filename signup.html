@@ -36,8 +36,6 @@
 
         <form action="">
           <div>
-            <h3>Full Name</h3>
-
             <label for="fullName">Full Name</label>
             <input
               type="text"
@@ -47,8 +45,6 @@
             />
           </div>
           <div>
-            <h3>Email Address</h3>
-
             <label for="email">Email Address</label>
             <input
               type="email"
@@ -58,8 +54,6 @@
             />
           </div>
           <div>
-            <h3>Password</h3>
-
             <label for="password">Password</label>
             <input
               type="password"
@@ -69,8 +63,6 @@
             />
           </div>
           <div>
-            <h3>Confirm Password</h3>
-
             <label for="confirmPassword">Confirm Password</label>
             <input
               type="password"
@@ -79,31 +71,20 @@
             />
           </div>
           <div>
-            <h3>Date of Birth</h3>
-
             <label for="date">Date of Birth</label>
             <input type="date" placeholder="MM/DD/YYYY" id="date" name="date" />
           </div>
           <div>
-            <h3>Gender</h3>
-
-            <input type="radio" id="gender" name="gender" value="male" />
-            <label for="gender">Male</label>
-            <input type="radio" id="gender" name="gender" value="female" />
-            <label for="gender">Female</label>
-            <input type="radio" id="gender" name="gender" value="Non-binary" />
-            <label for="gender">Non-binary</label>
+            <label for="location">Location</label>
             <input
-              type="radio"
-              id="gender"
-              name="gender"
-              value="Prefer not to say"
+              type="text"
+              placeholder="City, Country"
+              id="location"
+              name="location"
             />
-            <label for="gender">Prefer not to say</label>
           </div>
-          <div>
-            <h3>Looking For</h3>
 
+          <div>
             <label for="lookFor">I’m looking for</label>
             <select name="lookFor" id="lookFor">
               <option value="Friendship">Friendship</option>
@@ -113,20 +94,8 @@
               <option value="Networking">Networking</option>
             </select>
           </div>
-          <div>
-            <h3>Location</h3>
 
-            <label for="location">Location</label>
-            <input
-              type="text"
-              placeholder="City, Country"
-              id="location"
-              name="location"
-            />
-          </div>
           <div>
-            <h3>Interests / Hobbies (Optional but recommended)</h3>
-
             <label for="interest">Your Interests</label>
             <!-- <input
             type="text"
@@ -140,17 +109,51 @@
               id="interest"
             ></textarea>
           </div>
+          <div class="radio-Selection">
+            <h3>Gender</h3>
+            <div class="gender">
+              <div class="gender_info">
+                <input type="radio" id="gender" name="gender" value="male" />
+                <label for="gender">Male</label>
+              </div>
+              <div class="gender_info">
+                <input type="radio" id="gender" name="gender" value="female" />
+                <label for="gender">Female</label>
+              </div>
+              <div class="gender_info">
+                <input
+                  type="radio"
+                  id="gender"
+                  name="gender"
+                  value="Non-binary"
+                />
+                <label for="gender">Non-binary</label>
+              </div>
+              <div class="gender_info">
+                <input
+                  type="radio"
+                  id="gender"
+                  name="gender"
+                  value="Prefer not to say"
+                />
+                <label for="gender">Prefer not to say</label>
+              </div>
+            </div>
+          </div>
           <button type="submit">sign up Now</button>
-          <p>
-            Privacy Note: “By signing up, you agree to our Terms of Service and
-            Privacy Policy.”
-          </p>
-          <p>
-            Already have an account? “Log in here” <a href="login">Login</a>
-          </p>
-          <p>
-            Optional Social Sign-Up: “Or sign up with Facebook / Google / Apple”
-          </p>
+          <div class="privacy">
+            <p>
+              Privacy Note: “By signing up, you agree to our Terms of Service
+              and Privacy Policy.”
+            </p>
+            <p>
+              Already have an account? “Log in here” <a href="login">Login</a>
+            </p>
+            <p>
+              Optional Social Sign-Up: “Or sign up with Facebook / Google /
+              Apple”
+            </p>
+          </div>
         </form>
       </main>
       <footer>
