@@ -24,4 +24,39 @@ const x3 = String(generateRandomNum());
 const x4 = String(generateRandomNum());
 const x5 = String(generateRandomNum());
 const x6 = String(generateRandomNum());
-console.log(`${x1}${x2}${x3}${x4}${x5}${x6}`);
+// console.log(`${x1}${x2}${x3}${x4}${x5}${x6}`);
+const age = 18;
+const isDrunk = false;
+const IsLady = true;
+const isClubFull = true;
+const wearCoolclothe = false;
+if (age >= 18) {
+  if (!isDrunk) {
+    if (IsLady) {
+      if (!isClubFull) {
+        console.log("welcome");
+      } else if (wearCoolclothe) {
+        console.log(`Wow, cool clothes, come in`);
+      } else {
+        console.log(`No, too busy right now`);
+      }
+    } else {
+      console.log(`It's ladies night. Come back another night.`);
+    }
+  } else {
+    console.log(`Please come back when you're sober.`);
+  }
+} else {
+  console.log(`You're too young. Please come back when you're older.`);
+}
+
+function print() {
+  let text = 0;
+  let i = 0;
+  while (i < 5) {
+    text += i;
+    i++;
+  }
+  return text;
+}
+console.log(print());
