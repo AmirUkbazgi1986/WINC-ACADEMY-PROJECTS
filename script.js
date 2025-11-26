@@ -438,3 +438,35 @@
 //   }
 //   i++;
 // }
+let weekend = "Hey, it is weekend";
+let workdays = "NO, it is work day!";
+let today = 6;
+
+switch (today) {
+  case 0:
+    console.log(weekend);
+    break;
+  case 1:
+  case 2:
+  case 3:
+  case 4:
+  case 5:
+    console.log(workdays);
+    break;
+  case 6:
+    console.log(weekend);
+    break;
+}
+
+for (let i = 0; i <= 3; i++) {
+  let answer;
+
+  while (true) {
+    answer = prompt(`Round ${i} - enter a number between 1 and 10`);
+    if (answer >= 1 && answer <= 10) {
+      break;
+    }
+    console.log("Invalid! Try again");
+  }
+  console.log(`You entered: ${answer}`);
+}
