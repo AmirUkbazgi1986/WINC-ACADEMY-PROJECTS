@@ -1,4 +1,5 @@
 "use strict";
+import { mockData } from "./mockData.js";
 
 // 1. Refactoring dating questions Project From Winc Academy
 /---------------------------------------------------------/;
@@ -438,35 +439,84 @@
 //   }
 //   i++;
 // }
-let weekend = "Hey, it is weekend";
-let workdays = "NO, it is work day!";
-let today = 6;
 
-switch (today) {
-  case 0:
-    console.log(weekend);
-    break;
-  case 1:
-  case 2:
-  case 3:
-  case 4:
-  case 5:
-    console.log(workdays);
-    break;
-  case 6:
-    console.log(weekend);
-    break;
-}
+const questions = [
+  "What is your first Name?",
+  "What is your last Name?",
+  "What is your age",
+  "What is your gender? M/F/X",
+  "What is your gender interest? M/F/X",
+  "What is your location? City/Rural",
+  "What is the minimum age interest? 18-100",
+  "What is the maximum age interest? 18-100",
+];
 
-for (let i = 0; i <= 3; i++) {
+// let capitals = ["Asmara", "Addis Ababa", "Amsterdam", "Khartum", "Paris"];
+// let countries = [];
+// let correct = false;
+// let mistakeCounter = 0;
+
+// for (let i = 0; i < capitals.length; i++) {
+//   let answer;
+//   while (!correct) {
+//     answer = prompt(`${capitals[i]} is the capital city of ? `).toLowerCase();
+//     if (i === 0) {
+//       if (answer === "eritrea") {
+//         break;
+//       }
+//       mistakeCounter++;
+//       console.log("Wrong answer! Try again");
+//     } else if (i === 1) {
+//       if (answer === "ethiopia") {
+//         break;
+//       }
+//       mistakeCounter++;
+//       console.log("Wrong answer! Try again");
+//     } else if (i === 2) {
+//       if (answer === "nederland") {
+//         break;
+//       }
+//       mistakeCounter++;
+//       console.log("Wrong answer! Try again");
+//     } else if (i === 3) {
+//       if (answer === "sudan") {
+//         break;
+//       }
+//       mistakeCounter++;
+//       console.log("Wrong answer! Try again");
+//     } else if (i === 4) {
+//       if (answer === "france") {
+//         break;
+//       }
+//       mistakeCounter++;
+//       console.log("Wrong answer! Try again");
+//     }
+//   }
+//   if (i === 0) countries.push(answer);
+//   if (i === 1) countries.push(answer);
+//   if (i === 2) countries.push(answer);
+//   if (i === 3) countries.push(answer);
+//   if (i === 4) countries.push(answer);
+// }
+// if (mistakeCounter > 5) {
+//   console.log(`You made ${mistakeCounter} mistakes. You fail try again`);
+// } else {
+//   console.log(`You made ${mistakeCounter} mistakes. You passed the test`);
+// }
+
+// console.log(countries);
+const players = ["amir", "namik", "amna"];
+
+for (let i = 0; i < players.length; i++) {
   let answer;
-
   while (true) {
-    answer = prompt(`Round ${i} - enter a number between 1 and 10`);
-    if (answer >= 1 && answer <= 10) {
+    answer = prompt(
+      ` ${players[i]}, what is the capital city of Eritrea?`
+    ).toLowerCase();
+
+    if (answer === "asmara") {
       break;
     }
-    console.log("Invalid! Try again");
+    alert("Try again!");
   }
-  console.log(`You entered: ${answer}`);
 }
