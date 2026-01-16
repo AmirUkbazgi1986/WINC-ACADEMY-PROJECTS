@@ -1,8 +1,9 @@
 "use-strict";
+
+// Fetching the data from cake-recipes.json file
+
 const response = await fetch("./cake-recipes.json");
 const data = await response.json();
-
-console.log(data.slice(0, 6));
 
 // 1. function to get unique Author;
 
@@ -17,77 +18,78 @@ const getAllAuthors = (data) => {
 
   reduceAu.forEach((author) => console.log(author));
 };
-// getAllAuthors(data);
 
 // 2.function to get Recipe by Author;
 
 const getRecipesByAuthor = (data, author) => {
-  const filterRecipe = data.filter(({ Author, Name }) => {
-    if (author === Author) {
-      return Name;
-    }
-  });
+  const filteredRecipesNames = data.filter(
+    (recipe) => recipe.Author.toLowerCase() === author.toLowerCase()
+  );
 
-  getRecipesName(filterRecipe);
+  if (filteredRecipesNames.length === 0) {
+    console.log("No recipes found for this author.");
+    return;
+  }
+
+  getRecipesName(filteredRecipesNames);
 };
-
-// getRecipesByAuthor(data, "Barney Desmazery");
 
 // 3. Function to get Recipe by ingredients
 
 const getRecipesByIngredient = (data, ing) => {
-  const hasIngredient = data.some(({ Ingredients }) =>
-    Ingredients.includes(ing)
+  const ingredient = ing.toLowerCase();
+
+  const filteredRecipes = data.filter((recipe) =>
+    recipe.Ingredients.some((item) => item.toLowerCase().includes(ingredient))
   );
 
-  if (hasIngredient) {
-    const filteredIngredient = data.filter((recipe) =>
-      recipe.Ingredients.includes(ing) ? recipe.Name : null
+  if (filteredRecipes.length === 0) {
+    console.log(
+      "There is no such ingredient in CakeRecipes! Please enter a valid ingredient."
     );
-
-    getRecipesName(filteredIngredient);
+    return;
   }
+  getRecipesName(filteredRecipes);
 };
 
 //4. function to get Recipes by name
-const getRecipesByName = (data, name) => {
-  const recipe = data.find((recipe) => recipe.Name.includes(name));
-  console.log(recipe);
+
+const getRecipeByName = (data, name) => {
+  const recipe = data.find((recipe) =>
+    recipe.Name.toLowerCase().includes(name.toLowerCase())
+  );
+
+  if (!recipe) {
+    console.log("There is no recipe found");
+    return null;
+  }
+
   return recipe;
 };
-// const returnedRecipe = getRecipesByName(data, "Dundee cake");
-// console.log(returnedRecipe);
 
 // 5. function to get all the ingredients
 
-const getAllIngredients = (data) => {
-  const returnedIng = data
-    .map(({ Ingredients }) => Ingredients)
-    .flat()
-    .reduce((acc, curr) => {
-      if (!acc.includes(curr)) {
-        return [...acc, curr];
-      }
-      return acc;
-    }, []);
-  console.log(returnedIng);
-  return returnedIng;
-};
-// const allIngredients = getAllIngredients(data.slice(0, 3));
-// console.log(allIngredients);
-
-// 6. function to log Recipe names (this need to be a general function which logs the name of the recipe)
-
-const getRecipesName = (data) => {
-  data.forEach(({ Name }) => {
-    if (!Name) {
-      console.log("There is no recipe found");
+const displayAllIngredients = (data) => {
+  const returnedIng = data.reduce((acc, curr) => {
+    if (!acc.includes(curr)) {
+      return [...acc, curr];
     }
-    console.log(Name);
+    return acc;
+  }, []);
+
+  console.log("All saved ingredients:");
+  returnedIng.forEach((ingredient, index) => {
+    console.log(`${index + 1}. ${ingredient}`);
   });
 };
 
-// getRecipesName(data);
+// 6. function to log Recipe names
+
+const getRecipesName = (data) => {
+  data.forEach(({ Name }) => {
+    console.log(Name);
+  });
+};
 
 // Part 2
 
@@ -104,7 +106,7 @@ const displayMenu = () => {
 };
 
 let choice;
-let resultRecipes = [];
+let savedIngredients = [];
 
 do {
   choice = displayMenu();
@@ -113,6 +115,7 @@ do {
     case 1:
       getAllAuthors(data);
       break;
+
     case 2:
       {
         const author = prompt(
@@ -121,6 +124,7 @@ do {
         getRecipesByAuthor(data, author);
       }
       break;
+
     case 3:
       {
         const ing = prompt("Enter the name of ingredients");
@@ -128,38 +132,51 @@ do {
       }
 
       break;
+
     case 4:
       {
         const recipeName = prompt(
           "Enter the name of the Recipe you are looking for?"
         );
-        const resultRecipe = getRecipesByName(data, recipeName);
-        resultRecipes = [...resultRecipes, resultRecipe];
+        const resultRecipe = getRecipeByName(data, recipeName);
 
-        const confirmStatus = confirm("Do you want this recipe to save? ");
+        if (resultRecipe) {
+          console.log("Recipe found:");
+          console.log(resultRecipe);
+        }
+
+        const confirmStatus = confirm(
+          "Do you want to save the ingredients of this recipe?"
+        );
         if (confirmStatus) {
-          const saveRecipe = localStorage.setItem(
-            "saveRecipe",
-            JSON.stringify(resultRecipes)
+          savedIngredients = [...savedIngredients, ...resultRecipe.Ingredients];
+
+          localStorage.setItem(
+            "savedIngredients",
+            JSON.stringify(savedIngredients)
           );
         }
       }
       break;
+
     case 5:
       {
-        const getRecipe = JSON.parse(localStorage.getItem("saveRecipe")) || 0;
-        if (getRecipe !== 0) {
-          getAllIngredients(getRecipe);
+        const getSavedIngredients =
+          JSON.parse(localStorage.getItem("savedIngredients")) || [];
+        if (getSavedIngredients.length > 0) {
+          displayAllIngredients(getSavedIngredients);
         } else {
           console.log(
-            "There is no saved Recipes to show you the ingredients? please first save some recipes!!"
+            "There are no saved recipes yet. Please save some recipes first!"
           );
         }
       }
       break;
+
     case 0:
       console.log("Exiting...");
       break;
+
     default:
       console.log("Invalid input. Please enter a number between 0 and 5.");
   }
