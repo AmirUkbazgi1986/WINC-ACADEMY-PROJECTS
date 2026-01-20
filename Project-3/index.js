@@ -147,6 +147,7 @@ do {
           const confirmStatus = confirm(
             "Do you want to save the ingredients of this recipe?",
           );
+
           if (confirmStatus) {
             savedIngredients = [
               ...savedIngredients,
