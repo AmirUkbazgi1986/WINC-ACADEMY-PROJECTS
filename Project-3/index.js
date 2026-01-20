@@ -23,7 +23,7 @@ const getAllAuthors = (data) => {
 
 const getRecipesByAuthor = (data, author) => {
   const filteredRecipesNames = data.filter(
-    (recipe) => recipe.Author.toLowerCase() === author.toLowerCase()
+    (recipe) => recipe.Author.toLowerCase() === author.toLowerCase(),
   );
 
   if (filteredRecipesNames.length === 0) {
@@ -40,12 +40,12 @@ const getRecipesByIngredient = (data, ing) => {
   const ingredient = ing.toLowerCase();
 
   const filteredRecipes = data.filter((recipe) =>
-    recipe.Ingredients.some((item) => item.toLowerCase().includes(ingredient))
+    recipe.Ingredients.some((item) => item.toLowerCase().includes(ingredient)),
   );
 
   if (filteredRecipes.length === 0) {
     console.log(
-      "There is no such ingredient in CakeRecipes! Please enter a valid ingredient."
+      "There is no such ingredient in CakeRecipes! Please enter a valid ingredient.",
     );
     return;
   }
@@ -56,7 +56,7 @@ const getRecipesByIngredient = (data, ing) => {
 
 const getRecipeByName = (data, name) => {
   const recipe = data.find((recipe) =>
-    recipe.Name.toLowerCase().includes(name.toLowerCase())
+    recipe.Name.toLowerCase().includes(name.toLowerCase()),
   );
 
   if (!recipe) {
@@ -119,7 +119,7 @@ do {
     case 2:
       {
         const author = prompt(
-          "Enter the name of the author? In the form of (Amir Ukbazgi)"
+          "Enter the name of the author? In the form of (Amir Ukbazgi)",
         );
         getRecipesByAuthor(data, author);
       }
@@ -136,25 +136,28 @@ do {
     case 4:
       {
         const recipeName = prompt(
-          "Enter the name of the Recipe you are looking for?"
+          "Enter the name of the Recipe you are looking for?",
         );
         const resultRecipe = getRecipeByName(data, recipeName);
 
         if (resultRecipe) {
           console.log("Recipe found:");
           console.log(resultRecipe);
-        }
 
-        const confirmStatus = confirm(
-          "Do you want to save the ingredients of this recipe?"
-        );
-        if (confirmStatus) {
-          savedIngredients = [...savedIngredients, ...resultRecipe.Ingredients];
-
-          localStorage.setItem(
-            "savedIngredients",
-            JSON.stringify(savedIngredients)
+          const confirmStatus = confirm(
+            "Do you want to save the ingredients of this recipe?",
           );
+          if (confirmStatus) {
+            savedIngredients = [
+              ...savedIngredients,
+              ...resultRecipe.Ingredients,
+            ];
+
+            localStorage.setItem(
+              "savedIngredients",
+              JSON.stringify(savedIngredients),
+            );
+          }
         }
       }
       break;
@@ -167,7 +170,7 @@ do {
           displayAllIngredients(getSavedIngredients);
         } else {
           console.log(
-            "There are no saved recipes yet. Please save some recipes first!"
+            "There are no saved recipes yet. Please save some recipes first!",
           );
         }
       }
