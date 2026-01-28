@@ -8,19 +8,21 @@ import {
   Container,
 } from "@chakra-ui/react";
 import { portfolioItems } from "../../data/sampleData";
-function PortfolioItemCard() {
+
+function PortfolioItemCard({ onSelectedId }) {
   // console.log(portfolioItems[0]);
   return (
-    <Container maxW="1300px">
+    <Flex maxW="1200px" wrap="wrap" mx="auto" justifyContent="center">
       {portfolioItems.map((portfolioItem) => (
         <Card.Root
-          maxW="600px"
+          maxW="450px"
           overflow={"hidden"}
-          mx="auto"
-          my="20px"
+          m="20px"
           borderRadius="20px"
           p="10px"
           boxShadow="10px 8px 10px rgba(0,0,0,0.2)"
+          key={portfolioItem.id}
+          onClick={() => onSelectedId(portfolioItem.id)}
         >
           <Card.Header>
             <Image
@@ -28,38 +30,40 @@ function PortfolioItemCard() {
               alt="image"
               borderRadius="20px"
               h="300px"
+              cursor="pointer"
             />
           </Card.Header>
           <Card.Body gap={2}>
             <Heading
               as="h1"
-              textStyle="3xl"
+              textStyle="lg"
               fontWeight="bold"
               letterSpacing="tight"
             >
               {portfolioItem.title}
             </Heading>
-            <Text mt="2" fontSize="20px">
+            <Text mt="2" fontSize="16px">
               {portfolioItem.summary}
             </Text>
           </Card.Body>
           <Card.Footer gap={2}>
-            <Flex gap={"20px"}>
-              {portfolioItem.skills.map((skill) => (
+            {portfolioItem.skills.map((skill) => (
+              <Flex align="center" wrap="wrap" key={skill}>
                 <Tag.Root
-                  padding="20px"
-                  bg="blue.400"
-                  color="whiteAlpha.700"
+                  padding="10px"
+                  bg="blue.200"
+                  color="blackAlpha.800"
                   borderRadius="8px"
+                  cursor="pointer"
                 >
                   <Tag.Label fontSize="16px">{skill}</Tag.Label>
                 </Tag.Root>
-              ))}
-            </Flex>
+              </Flex>
+            ))}
           </Card.Footer>
         </Card.Root>
       ))}
-    </Container>
+    </Flex>
   );
 }
 
