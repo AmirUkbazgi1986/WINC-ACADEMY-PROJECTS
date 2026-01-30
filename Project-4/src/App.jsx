@@ -1,30 +1,28 @@
+import { Container } from "@chakra-ui/react";
+import RecipeListPage from "./pages/RecipeListPage";
+import RecipePage from "./pages/RecipePage";
 import { useState } from "react";
-import Navbar from "./components/Navbar";
-import PortfolioItemCard from "./components/PortfolioItemCard";
-import SelectedItem from "./components/SelectedItem";
 
 function App() {
-  const [selectedId, setSelectedId] = useState(null);
+  const [selectedLabel, setSelectedLabel] = useState("");
 
-  function handleSelectedId(id) {
-    setSelectedId(id);
+  function handleSelectLabel(label) {
+    setSelectedLabel(label);
   }
-
-  function handleBackHomePage() {
-    setSelectedId(null);
+  function handleBackToListPage() {
+    setSelectedLabel("");
   }
   return (
-    <div>
-      <Navbar />
-      {selectedId ? (
-        <SelectedItem
-          selectedId={selectedId}
-          onBackHomePage={handleBackHomePage}
+    <Container maxW="1400px" bg="blue.500">
+      {selectedLabel ? (
+        <RecipePage
+          selectedLabel={selectedLabel}
+          onBackToList={handleBackToListPage}
         />
       ) : (
-        <PortfolioItemCard onSelectedId={handleSelectedId} />
+        <RecipeListPage onSelectLabel={handleSelectLabel} />
       )}
-    </div>
+    </Container>
   );
 }
 

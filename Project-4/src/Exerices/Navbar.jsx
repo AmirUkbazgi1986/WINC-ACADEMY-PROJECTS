@@ -6,7 +6,7 @@ import {
   Heading,
   Spacer,
 } from "@chakra-ui/react";
-import { ColorModeToggle } from "./ColorModeToggle";
+import { ColorModeToggle } from "../components/ColorModeToggle";
 
 function Navbar() {
   return (
