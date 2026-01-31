@@ -16,11 +16,11 @@ import { useState } from "react";
 function RecipeListPage({ onSelectLabel }) {
   const [inputRecipe, setInputRecipe] = useState("");
   const veg = ["Vegan", "Vegetarian"];
-  // function searchRecipe() {
-  //   const filterRecipe = data.hits.map((recipe) =>
-  //     recipe.recipe.label === inputRecipe ? recipe.recipe : null,
-  //   );
-  // }
+
+  const filterRecipe = data.hits.filter((recipe) =>
+    recipe.recipe.label === inputRecipe ? recipe.recipe : null,
+  );
+  console.log(filterRecipe);
 
   // const dataEle = data.hits[10].recipe;
   // let dietLabel = dataEle.dietLabels?.map((label) => label);
