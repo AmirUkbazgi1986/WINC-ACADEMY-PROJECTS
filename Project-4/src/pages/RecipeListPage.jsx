@@ -13,14 +13,16 @@ import {
 import { data } from "../../data/data.js";
 import { useState } from "react";
 
-function RecipeListPage({ onSelectLabel }) {
-  const [inputRecipe, setInputRecipe] = useState("");
+function RecipeListPage({ onSelectedRecipe }) {
+  const [inputRecipeLabel, setInputRecipeLabel] = useState("");
   const veg = ["Vegan", "Vegetarian"];
 
-  const filterRecipe = data.hits.filter((recipe) =>
-    recipe.recipe.label === inputRecipe ? recipe.recipe : null,
-  );
-  console.log(filterRecipe);
+  // const filterRecipe = data.hits.filter((recipe) =>
+  //   recipe.recipe.label
+  //     .toLowerCase()
+  //     .includes(inputRecipeLabel.toLocaleLowerCase()),
+  // );
+  // console.log(filterRecipe);
 
   // const dataEle = data.hits[10].recipe;
   // let dietLabel = dataEle.dietLabels?.map((label) => label);
@@ -41,8 +43,8 @@ function RecipeListPage({ onSelectLabel }) {
       </Heading>
       <Input
         placeholder="Search recipes"
-        value={inputRecipe}
-        onChange={(e) => setInputRecipe(e.target.value)}
+        value={inputRecipeLabel}
+        onChange={(e) => setInputRecipeLabel(e.target.value)}
         width={{ base: "300px", sm: "300px", md: "500px", lg: "600px" }}
         bg="white"
         px="20px"
@@ -69,7 +71,7 @@ function RecipeListPage({ onSelectLabel }) {
             minH="400px"
             overflow="hidden"
             key={recipe.recipe.label}
-            onClick={() => onSelectLabel(recipe.recipe.label)}
+            onClick={() => onSelectedRecipe(recipe.recipe)}
           >
             <Card.Root width="100%" height="100%">
               <Box maxH="200px" w="100%">

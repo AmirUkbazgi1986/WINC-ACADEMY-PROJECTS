@@ -4,23 +4,24 @@ import RecipePage from "./pages/RecipePage";
 import { useState } from "react";
 
 function App() {
-  const [selectedLabel, setSelectedLabel] = useState("");
+  const [selectedRecipe, setSelectedRecipe] = useState(null);
+  // const [search, setSearch] = useState("");
 
-  function handleSelectLabel(label) {
-    setSelectedLabel(label);
+  function handleSelectedRecipe(label) {
+    setSelectedRecipe(label);
   }
   function handleBackToListPage() {
-    setSelectedLabel("");
+    setSelectedRecipe("");
   }
   return (
     <Container maxW="1400px" bg="blue.500">
-      {selectedLabel ? (
+      {selectedRecipe ? (
         <RecipePage
-          selectedLabel={selectedLabel}
+          selectedRecipe={selectedRecipe}
           onBackToList={handleBackToListPage}
         />
       ) : (
-        <RecipeListPage onSelectLabel={handleSelectLabel} />
+        <RecipeListPage onSelectedRecipe={handleSelectedRecipe} />
       )}
     </Container>
   );
