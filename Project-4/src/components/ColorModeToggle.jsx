@@ -52,7 +52,7 @@ export function ColorModeToggle() {
         p="20px"
         fontSize="18px"
         onClick={() => setTheme("dark")}
-        color={isActive("dark") ? undefined : "white"}
+        color={isActive("dark") ? undefined : "black"}
         variant={
           isActive("dark")
             ? "solid" // if the dark theme is active

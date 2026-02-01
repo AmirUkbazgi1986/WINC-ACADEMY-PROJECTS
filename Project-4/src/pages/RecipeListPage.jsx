@@ -15,18 +15,23 @@ import { useState } from "react";
 
 function RecipeListPage({ onSelectedRecipe }) {
   const [inputRecipeLabel, setInputRecipeLabel] = useState("");
+  const [filterRecipes, setFilteredRecipe] = useState(data.hits);
+
   const veg = ["Vegan", "Vegetarian"];
 
-  // const filterRecipe = data.hits.filter((recipe) =>
-  //   recipe.recipe.label
-  //     .toLowerCase()
-  //     .includes(inputRecipeLabel.toLocaleLowerCase()),
-  // );
-  // console.log(filterRecipe);
+  function getFilteredRecipe(value) {
+    // filtering using the recipe label
+    const result = data.hits.filter((recipe) =>
+      recipe.recipe.label.toLowerCase().includes(value.toLocaleLowerCase()),
+    );
+    setFilteredRecipe(result);
+  }
 
-  // const dataEle = data.hits[10].recipe;
-  // let dietLabel = dataEle.dietLabels?.map((label) => label);
-  // console.log(dietLabel);
+  function handleChange(e) {
+    const value = e.target.value;
+    setInputRecipeLabel(value);
+    getFilteredRecipe(value);
+  }
 
   return (
     <Flex
@@ -38,15 +43,15 @@ function RecipeListPage({ onSelectedRecipe }) {
       gap="20px"
       p="10px"
     >
-      <Heading as="h1" size="4xl" color="white">
+      <Heading as="h1" size="4xl">
         Winc Recipe Checker
       </Heading>
+
       <Input
         placeholder="Search recipes"
         value={inputRecipeLabel}
-        onChange={(e) => setInputRecipeLabel(e.target.value)}
+        onChange={(e) => handleChange(e)}
         width={{ base: "300px", sm: "300px", md: "500px", lg: "600px" }}
-        bg="white"
         px="20px"
         py="20px"
         fontSize="18px"
@@ -62,10 +67,18 @@ function RecipeListPage({ onSelectedRecipe }) {
           lg: "repeat(4, 1fr)",
         }}
         gap="6"
+        justifyItems={
+          inputRecipeLabel && filterRecipes.length === 1 ? "center" : "stretch"
+        }
       >
-        {data.hits.map((recipe) => (
+        {filterRecipes?.map((recipe) => (
           <GridItem
-            colSpan={1}
+            colSpan={
+              inputRecipeLabel && filterRecipes.length === 1 ? { lg: 4 } : 1
+            }
+            display="flex"
+            justifyContent="center"
+            border="1px solid"
             borderRadius="20px"
             maxW="300px"
             minH="400px"
@@ -102,6 +115,7 @@ function RecipeListPage({ onSelectedRecipe }) {
                           as="span"
                           key={label}
                           bg="purple.300"
+                          color="black"
                           p="5px"
                           fontSize="12px"
                           fontWeight="bold"
@@ -120,7 +134,7 @@ function RecipeListPage({ onSelectedRecipe }) {
                         p="5px"
                         fontSize="12px"
                         fontWeight="bold"
-                        color="black.100"
+                        color="black"
                       >
                         {label.toUpperCase()}
                       </Text>
@@ -136,6 +150,7 @@ function RecipeListPage({ onSelectedRecipe }) {
                         key={caution}
                         as="span"
                         bg="red.200"
+                        color="black"
                         p="5px"
                         fontSize="12px"
                         fontWeight="bold"

@@ -15,8 +15,6 @@ import {
 import { FaAngleLeft } from "react-icons/fa";
 
 function RecipePage({ selectedRecipe, onBackToList }) {
-  console.log(selectedRecipe);
-
   return (
     <Flex
       direction="column"
@@ -24,7 +22,6 @@ function RecipePage({ selectedRecipe, onBackToList }) {
       minH="100vh"
       mx="auto"
       align="center"
-      bg="white"
     >
       <Flex
         width="100%"
@@ -33,7 +30,7 @@ function RecipePage({ selectedRecipe, onBackToList }) {
         alignItems="center"
         px="30px"
       >
-        <Button onClick={onBackToList} color="blue.300" bg="transparent">
+        <Button onClick={onBackToList} color="blue" bg="transparent">
           <FaAngleLeft />
         </Button>
       </Flex>
@@ -61,7 +58,9 @@ function RecipePage({ selectedRecipe, onBackToList }) {
             <Text>
               Total cooking time:
               <Text as="span" ml="5px" fontWeight="bold">
-                {selectedRecipe.totalTime} Minutes
+                {selectedRecipe.totalTime === 0
+                  ? "N/A"
+                  : `${selectedRecipe.totalTime} Minutes`}
               </Text>
             </Text>
 
@@ -88,7 +87,7 @@ function RecipePage({ selectedRecipe, onBackToList }) {
           </Text>
           <HStack gap="10px" wrap="wrap" my="10px">
             {selectedRecipe.healthLabels.map((label) => (
-              <Tag.Root key={label} bg="purple.300">
+              <Tag.Root key={label} bg="purple.300" color="black">
                 <Tag.Label fontWeight="bold" fontSize="14px">
                   {label.toUpperCase()}
                 </Tag.Label>
@@ -107,7 +106,7 @@ function RecipePage({ selectedRecipe, onBackToList }) {
                 p="5px"
                 fontSize="12px"
                 fontWeight="bold"
-                color="black.100"
+                color="black"
               >
                 {label.toUpperCase()}
               </Text>
@@ -122,6 +121,7 @@ function RecipePage({ selectedRecipe, onBackToList }) {
                 key={caution}
                 as="span"
                 bg="red.200"
+                color="black"
                 p="5px"
                 fontSize="12px"
                 fontWeight="bold"

@@ -1,20 +1,26 @@
-import { Container } from "@chakra-ui/react";
+import { Flex } from "@chakra-ui/react";
 import RecipeListPage from "./pages/RecipeListPage";
 import RecipePage from "./pages/RecipePage";
 import { useState } from "react";
+import { ColorModeToggle } from "./components/ColorModeToggle";
 
 function App() {
   const [selectedRecipe, setSelectedRecipe] = useState(null);
-  // const [search, setSearch] = useState("");
 
-  function handleSelectedRecipe(label) {
-    setSelectedRecipe(label);
+  function handleSelectedRecipe(recipe) {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    setSelectedRecipe(recipe);
   }
+
   function handleBackToListPage() {
-    setSelectedRecipe("");
+    setSelectedRecipe(null);
   }
+
   return (
-    <Container maxW="1400px" bg="blue.500">
+    <Flex direction="column" maxW="100vw" minH="100vh" bg="bg">
+      <Flex justify="flex-end" p="10px">
+        <ColorModeToggle />
+      </Flex>
       {selectedRecipe ? (
         <RecipePage
           selectedRecipe={selectedRecipe}
@@ -23,7 +29,7 @@ function App() {
       ) : (
         <RecipeListPage onSelectedRecipe={handleSelectedRecipe} />
       )}
-    </Container>
+    </Flex>
   );
 }
 
