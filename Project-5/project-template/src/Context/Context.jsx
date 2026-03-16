@@ -1,34 +1,17 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 
 const ContextEvents = createContext();
 
-function ContextProvider({ children }) {
-  const [events, setEvents] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+function ContextProvider({ children, initialEvents }) {
+  const [events, setEvents] = useState(initialEvents);
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    async function fetchEvents() {
-      try {
-        setLoading(true);
-        setError(null);
-
-        const res = await fetch("http://localhost:3000/events");
-        if (!res.ok) throw new Error("Could not fetch!");
-        const data = await res.json();
-
-        setEvents(data);
-      } catch (error) {
-        setError(`Error: ${error.message}`);
-      } finally {
-        setLoading(false);
-      }
-    }
-    fetchEvents();
-  }, []);
+    setEvents(initialEvents);
+  }, [initialEvents]);
 
   return (
-    <ContextEvents.Provider value={{ events, loading, error }}>
+    <ContextEvents.Provider value={{ events, setEvents, open, setOpen }}>
       {children}
     </ContextEvents.Provider>
   );

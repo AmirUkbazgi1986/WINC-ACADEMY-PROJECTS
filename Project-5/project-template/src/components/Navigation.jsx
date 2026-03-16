@@ -1,6 +1,10 @@
 import { Flex, Link } from "@chakra-ui/react";
+import { useEvents } from "../Context/Context";
+// import { Link } from "react-router";
 
 export const Navigation = () => {
+  const { setOpen } = useEvents();
+
   return (
     <nav>
       <Flex
@@ -15,7 +19,12 @@ export const Navigation = () => {
         <Link href="/" textDecoration="none" fontSize="20px" fontWeight="bold">
           Events
         </Link>
-        <Link textDecoration="none" fontSize="20px" fontWeight="bold">
+        <Link
+          textDecoration="none"
+          fontSize="20px"
+          fontWeight="bold"
+          onClick={() => setOpen(true)}
+        >
           Add Event
         </Link>
       </Flex>

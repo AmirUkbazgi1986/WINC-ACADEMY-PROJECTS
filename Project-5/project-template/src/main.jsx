@@ -4,23 +4,25 @@ import { EventPage } from "./pages/EventPage";
 import { EventsPage } from "./pages/EventsPage";
 import { Provider } from "./components/ui/provider";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { Root } from "./components/Root";
-import { ContextProvider } from "./Context/Context";
+import { Root } from "./layouts.jsx/Root";
+import { postListLoader, postLoader } from "./loaders/loaders";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Root />,
+    errorElement: <EventPage />,
+    loader: postListLoader,
+
     children: [
       {
         path: "/",
         element: <EventsPage />,
-        // loader: postListLoader,
       },
       {
         path: "/event/:eventId",
         element: <EventPage />,
-        // loader: postLoader,
+        loader: postLoader,
         // action: addComment,
       },
     ],
@@ -29,10 +31,11 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <ContextProvider>
-      <Provider>
-        <RouterProvider router={router} />
-      </Provider>
-    </ContextProvider>
+    <Provider>
+      <RouterProvider
+        router={router}
+        fallbackElement={<p>Loading application...</p>}
+      />
+    </Provider>
   </React.StrictMode>,
 );
