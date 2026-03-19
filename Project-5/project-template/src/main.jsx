@@ -1,7 +1,9 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
+
 import { EventPage } from "./pages/EventPage";
 import { EventsPage } from "./pages/EventsPage";
+import { Contact } from "./pages/Contact";
 import { Provider } from "./components/ui/provider";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { Root } from "./layouts.jsx/Root";
@@ -24,6 +26,10 @@ const router = createBrowserRouter([
         element: <EventPage />,
         loader: postLoader,
         // action: addComment,
+      },
+      {
+        path: "/contact",
+        element: <Contact />,
       },
     ],
   },

@@ -22,7 +22,7 @@ export async function postListLoader() {
       };
     });
 
-    return eventsWithCategories;
+    return { eventsWithCategories, categories };
   } catch (error) {
     console.error(error);
     return [];

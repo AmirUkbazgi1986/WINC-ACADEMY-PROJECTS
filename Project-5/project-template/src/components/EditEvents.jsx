@@ -7,40 +7,69 @@ import {
   Field,
   Dialog,
 } from "@chakra-ui/react";
-
+import { useEffect } from "react";
 import { useEvents } from "../Context/Context";
 import { useRevalidator } from "react-router-dom";
-
-export default function EventModuleForm() {
-  const { open, setOpen } = useEvents();
+import { toaster } from "../components/ui/toaster";
+export default function EditEvents() {
+  const { edit, setEdit, selectedEvent } = useEvents();
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors, isSubmitting },
   } = useForm();
+
   const { revalidate } = useRevalidator();
+  useEffect(() => {
+    if (selectedEvent) {
+      reset({
+        title: selectedEvent.title,
+        description: selectedEvent.description,
+        image: selectedEvent.image,
+        startTime: selectedEvent.startTime,
+        endTime: selectedEvent.endTime,
+        category: selectedEvent.categoryIds?.[0],
+      });
+    }
+  }, [selectedEvent, reset]);
+
   const onSubmit = async (data) => {
-    await fetch("http://localhost:3000/events", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        id: crypto.randomUUID(),
-        title: data.title,
-        description: data.description,
-        image: data.image,
-        categoryIds: [Number(data.category)],
-        startTime: data.startTime,
-        endTime: data.endTime,
-      }),
-    });
-    reset(); // clear the form
-    setOpen(false); // close Modal
-    revalidate(); // 🔥 reruns the loader
+    try {
+      const res = await fetch(
+        `http://localhost:3000/events/${selectedEvent.id}`,
+        {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            title: data.title,
+            description: data.description,
+            image: data.image,
+            categoryIds: [Number(data.category)],
+            startTime: data.startTime,
+            endTime: data.endTime,
+          }),
+        },
+      );
+      if (!res.ok) throw new Error("could not update");
+      reset(); // clear the form
+      setEdit(false); // close Modal
+      toaster.create({
+        title: "Success",
+        description: "Updating was successful",
+      });
+      revalidate(); // 🔥 reruns the loader
+    } catch (error) {
+      console.error(error);
+      toaster.create({
+        title: "Fail",
+        description: "Updating was not successful",
+      });
+    }
   };
 
   return (
-    <Dialog.Root open={open} onOpenChange={(e) => setOpen(e.open)}>
+    <Dialog.Root open={edit} onOpenChange={(e) => setEdit(e.open)}>
       <Dialog.Backdrop />
       <Dialog.Positioner>
         <Dialog.Content>
@@ -62,7 +91,7 @@ export default function EventModuleForm() {
               <Field.Root invalid={errors.description} mt={4}>
                 <Field.Label>Description</Field.Label>
                 <Textarea
-                  placeholder="Write your review..."
+                  placeholder="Write your description..."
                   {...register("description", {
                     required: "description is required",
                   })}
@@ -127,7 +156,7 @@ export default function EventModuleForm() {
                   variant="outline"
                   width="full"
                   type="button"
-                  onClick={() => setOpen(false)}
+                  onClick={() => setEdit(false)}
                 >
                   Back
                 </Button>
@@ -137,7 +166,7 @@ export default function EventModuleForm() {
                   isLoading={isSubmitting}
                   width="full"
                 >
-                  Submit Event
+                  Submit Edit Event
                 </Button>
               </VStack>
             </Dialog.Footer>
