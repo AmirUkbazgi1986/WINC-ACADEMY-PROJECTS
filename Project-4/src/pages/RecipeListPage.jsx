@@ -59,7 +59,8 @@ function RecipeListPage({ onSelectedRecipe }) {
 
       <Grid
         maxW="1300px"
-        minH="100vh"
+        // minH="100vh"
+        minH={inputRecipeLabel && filterRecipes.length === 1 ? "70vh" : "100vh"}
         templateColumns={{
           base: "repeat(1, 1fr)",
           sm: "repeat(2, 1fr)",
