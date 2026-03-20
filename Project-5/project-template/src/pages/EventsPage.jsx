@@ -15,7 +15,7 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { useState } from "react";
-import { Link } from "react-router";
+import { Link, useNavigation } from "react-router";
 import { useEvents } from "../Context/Context";
 import { EventsListSkeleton } from "../components/EventsListSkeleton";
 
@@ -31,7 +31,7 @@ function timeFun(value) {
 }
 
 export const EventsPage = () => {
-  const { events, loading } = useEvents();
+  const { events } = useEvents();
   const { eventsWithCategories, categories } = events;
 
   const [inputValue, setInputValue] = useState("");
@@ -74,6 +74,14 @@ export const EventsPage = () => {
       );
     }
   }
+
+  const navigation = useNavigation();
+
+  // 'no result" message
+  {
+    filteredEvents.length === 0 && <Text>No events found</Text>;
+  }
+
   return (
     <Container maxW="1300px" minH="100vh">
       <Flex
@@ -81,7 +89,6 @@ export const EventsPage = () => {
         w="full"
         mx="auto"
         align="center"
-        // justifyContent="center"
         gap="20px"
         p="10px"
       >
@@ -95,6 +102,7 @@ export const EventsPage = () => {
         </Heading>
         <HStack>
           <Input
+            type="text"
             placeholder="Search events"
             value={inputValue}
             onChange={(e) => handleChange(e)}
@@ -103,7 +111,6 @@ export const EventsPage = () => {
             py="20px"
             fontSize="18px"
           />
-          <Button>Search</Button>
         </HStack>
         <VStack align="center" gap={2}>
           <Heading as="h2">Category Filters</Heading>
@@ -132,7 +139,8 @@ export const EventsPage = () => {
           </HStack>
         </VStack>
       </Flex>
-      {loading ? (
+      {/* idle, loading, submitting */}
+      {navigation.state === "loading" ? (
         <EventsListSkeleton />
       ) : (
         <Grid

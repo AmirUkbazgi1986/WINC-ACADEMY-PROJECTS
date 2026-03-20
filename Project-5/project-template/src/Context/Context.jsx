@@ -4,16 +4,13 @@ const ContextEvents = createContext();
 
 function ContextProvider({ children, initialEvents }) {
   const [events, setEvents] = useState(initialEvents);
-  const [loading, setLoading] = useState(true);
+
   const [open, setOpen] = useState(false);
   const [edit, setEdit] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState(null);
 
   useEffect(() => {
-    if (initialEvents) {
-      setEvents(initialEvents);
-      setLoading(false);
-    }
+    setEvents(initialEvents);
   }, [initialEvents]);
 
   return (
@@ -27,7 +24,6 @@ function ContextProvider({ children, initialEvents }) {
         setEdit,
         selectedEvent,
         setSelectedEvent,
-        loading,
       }}
     >
       {children}

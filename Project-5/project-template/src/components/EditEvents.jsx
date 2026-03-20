@@ -73,14 +73,15 @@ export default function EditEvents() {
       <Dialog.Backdrop />
       <Dialog.Positioner>
         <Dialog.Content>
-          <Dialog.Header>Review Events</Dialog.Header>
+          <Dialog.Header fontWeight="bold" fontSize="20px">
+            Edit Events
+          </Dialog.Header>
           <form onSubmit={handleSubmit(onSubmit)}>
             <Dialog.Body>
               <Field.Root invalid={errors.title} mt={2}>
                 <Field.Label>Title:</Field.Label>
                 <Input
                   type="text"
-                  step={1}
                   {...register("title", {
                     required: "title is required",
                   })}
@@ -113,7 +114,6 @@ export default function EditEvents() {
                 <Field.Label>Start Time:</Field.Label>
                 <Input
                   type="datetime-local"
-                  step="1"
                   placeholder="Write start time(2026-03-16T20:35:45) ."
                   {...register("startTime", {
                     required: "Start Time  is required",
@@ -125,7 +125,6 @@ export default function EditEvents() {
                 <Field.Label>End Time:</Field.Label>
                 <Input
                   type="datetime-local"
-                  step="1"
                   placeholder="Write End time(2026-03-16T20:35:45) ."
                   {...register("endTime", {
                     required: "End Time  is required",
