@@ -1,6 +1,6 @@
-import { Flex, Link, Heading } from "@chakra-ui/react";
+import { Flex, Link } from "@chakra-ui/react";
 import { useEvents } from "../Context/Context";
-// import { Link } from "react-router";
+import { Link as RouterLink } from "react-router";
 
 export const Navigation = () => {
   const { setOpen } = useEvents();
@@ -17,15 +17,24 @@ export const Navigation = () => {
         padding="10px 30px"
         gap={4}
       >
-        <Heading as="h1" fontSize="26px" fontWeight="bold">
+        <Link
+          as={RouterLink}
+          to="/"
+          textDecoration="none"
+          fontSize="26px"
+          fontWeight="bold"
+          _focus={{ outline: "none" }}
+        >
           Events App
-        </Heading>
+        </Link>
         <Flex alignItems="center" justifyContent="end" gap={6}>
           <Link
-            href="/"
+            as={RouterLink}
+            to="/"
             textDecoration="none"
             fontSize="18px"
             fontWeight="bold"
+            _focus={{ outline: "none" }}
           >
             Events
           </Link>
@@ -38,10 +47,12 @@ export const Navigation = () => {
             Add Event
           </Link>
           <Link
-            href="/contact"
+            as={RouterLink}
+            to="/contact"
             textDecoration="none"
             fontSize="18px"
             fontWeight="bold"
+            _focus={{ outline: "none" }}
           >
             Contact
           </Link>

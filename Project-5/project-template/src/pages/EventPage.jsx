@@ -27,6 +27,7 @@ function timeFun(value) {
 export const EventPage = () => {
   const post = useLoaderData();
   const { setEdit, setSelectedEvent, setEvents } = useEvents();
+  console.log(setEdit);
   const navigate = useNavigate();
 
   const deleteEvent = async (Id) => {

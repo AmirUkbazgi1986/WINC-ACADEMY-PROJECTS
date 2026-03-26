@@ -8,6 +8,7 @@ import { Provider } from "./components/ui/provider";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { Root } from "./layouts.jsx/Root";
 import { postListLoader, postLoader } from "./loaders/loaders";
+// import { ChakraProvider } from "@chakra-ui/react";
 
 const router = createBrowserRouter([
   {

@@ -6,6 +6,7 @@ import {
   VStack,
   Field,
   Dialog,
+  Checkbox,
 } from "@chakra-ui/react";
 
 import { useEvents } from "../Context/Context";
@@ -33,7 +34,7 @@ export default function CreateEvents() {
           title: data.title,
           description: data.description,
           image: data.image,
-          categoryIds: [Number(data.category)],
+          categoryIds: data.categoryIds ? data.categoryIds.map(Number) : [],
           startTime: data.startTime,
           endTime: data.endTime,
         }),
@@ -60,7 +61,9 @@ export default function CreateEvents() {
       <Dialog.Backdrop />
       <Dialog.Positioner>
         <Dialog.Content>
-          <Dialog.Header>Review Events</Dialog.Header>
+          <Dialog.Header fontSize={"2xl"} fontWeight={"bold"}>
+            Create Event Form
+          </Dialog.Header>
           <form onSubmit={handleSubmit(onSubmit)}>
             <Dialog.Body>
               <Field.Root invalid={errors.title} mt={2}>
@@ -120,20 +123,30 @@ export default function CreateEvents() {
                 />
                 <Field.ErrorText>{errors.endTime?.message}</Field.ErrorText>
               </Field.Root>
-              <Field.Root invalid={errors.category} mt={4}>
-                <Field.Label>Category:</Field.Label>
-                <Input
-                  type="number"
-                  min={1}
-                  max={3}
-                  placeholder="Write a number between 1 and 3 ."
-                  {...register("category", {
-                    required: "catergory  is required",
-                    min: { value: 1, message: "minimum value should be 1." },
-                    max: { value: 3, message: "maximum value should be 3." },
-                  })}
-                />
-                <Field.ErrorText>{errors.category?.message}</Field.ErrorText>
+              <Field.Root invalid={errors.categoryIds} mt={4}>
+                <Field.Label>Categories:</Field.Label>
+
+                <VStack align="start" spacing={2}>
+                  {[
+                    { id: 1, name: "Sports" },
+                    { id: 2, name: "Games" },
+                    { id: 3, name: "Relaxation" },
+                  ].map((category) => (
+                    <Checkbox.Root
+                      key={category.id}
+                      value={category.id}
+                      {...register("categoryIds", {
+                        required: "Select at least one category",
+                      })}
+                    >
+                      <Checkbox.HiddenInput />
+                      <Checkbox.Control />
+                      <Checkbox.Label>{category.name}</Checkbox.Label>
+                    </Checkbox.Root>
+                  ))}
+                </VStack>
+
+                <Field.ErrorText>{errors.categoryIds?.message}</Field.ErrorText>
               </Field.Root>
             </Dialog.Body>
 

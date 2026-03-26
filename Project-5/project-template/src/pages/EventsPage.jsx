@@ -18,6 +18,12 @@ import { useState } from "react";
 import { Link, useNavigation } from "react-router";
 import { useEvents } from "../Context/Context";
 import { EventsListSkeleton } from "../components/EventsListSkeleton";
+// import { useColorModeValue } from "@chakra-ui/react";
+
+// const headingColor = useColorModeValue("gray.800", "whiteAlpha.900");
+// const textColor = useColorModeValue("gray.700", "gray.200");
+// const cardBorder = useColorModeValue("gray.200", "gray.600");
+// const cardBg = useColorModeValue("white", "gray.800");
 
 function dateFun(value) {
   const date = new Date(value);
@@ -31,13 +37,19 @@ function timeFun(value) {
 }
 
 export const EventsPage = () => {
-  const { events } = useEvents();
-  const { eventsWithCategories, categories } = events;
-
   const [inputValue, setInputValue] = useState("");
   const [selectedCategories, setSelectedCategories] = useState([]);
+  const { events } = useEvents();
+
+  const eventsWithCategories = events?.eventsWithCategories;
+  const categories = events?.categories;
+
+  const navigation = useNavigation();
 
   let filteredEvents;
+  if (!eventsWithCategories) {
+    return <EventsListSkeleton />;
+  }
 
   if (inputValue) {
     filteredEvents = eventsWithCategories.filter((event) =>
@@ -75,13 +87,6 @@ export const EventsPage = () => {
     }
   }
 
-  const navigation = useNavigation();
-
-  // 'no result" message
-  {
-    filteredEvents.length === 0 && <Text>No events found</Text>;
-  }
-
   return (
     <Container maxW="1300px" minH="100vh">
       <Flex
@@ -94,6 +99,7 @@ export const EventsPage = () => {
       >
         <Heading
           as={"h1"}
+          // color={headingColor}
           textAlign={"center"}
           marginTop={"10px"}
           fontSize={"32px"}
@@ -110,11 +116,18 @@ export const EventsPage = () => {
             px="20px"
             py="20px"
             fontSize="18px"
+            // bg={useColorModeValue("white", "gray.700")}
+            // color={useColorModeValue("gray.800", "gray.100")}
           />
         </HStack>
         <VStack align="center" gap={2}>
           <Heading as="h2">Category Filters</Heading>
-          <HStack gap={{ base: "10px", md: "30px" }} margin="20px 0">
+          <HStack
+            wrap="wrap"
+            justify="center"
+            gap={{ base: "10px", md: "30px" }}
+            margin="20px 0"
+          >
             {categories?.map((category) => (
               <Checkbox.Root
                 key={category.id}
@@ -124,7 +137,11 @@ export const EventsPage = () => {
               >
                 <Checkbox.HiddenInput />
                 <Checkbox.Control />
-                <Checkbox.Label>{category.name}</Checkbox.Label>
+                <Checkbox.Label
+                // color={useColorModeValue("gray.800", "gray.100")}
+                >
+                  {category.name}
+                </Checkbox.Label>
               </Checkbox.Root>
             ))}
 
@@ -133,15 +150,25 @@ export const EventsPage = () => {
                 setSelectedCategories([]);
                 setInputValue("");
               }}
+              // bg={useColorModeValue("blue.500", "blue.400")}
+              // color="white"
+              // _hover={{ bg: useColorModeValue("blue.600", "blue.300") }}
             >
               Clear Filter
             </Button>
           </HStack>
         </VStack>
       </Flex>
-      {/* idle, loading, submitting */}
-      {navigation.state === "loading" ? (
-        <EventsListSkeleton />
+
+      {filteredEvents.length === 0 ? (
+        <Text
+          textAlign="center"
+          mt="20px"
+          fontSize="lg"
+          // color={textColor}
+        >
+          No events found
+        </Text>
       ) : (
         <Grid
           w="full"
@@ -153,6 +180,9 @@ export const EventsPage = () => {
           }}
           alignItems="stretch"
           gap={4}
+          opacity={navigation.state === "loading" ? 0.6 : 1}
+          pointerEvents={navigation.state === "loading" ? "none" : "auto"}
+          transition="opacity 0.2s"
         >
           {filteredEvents?.map((event) => (
             <GridItem
@@ -165,7 +195,7 @@ export const EventsPage = () => {
                 inputValue && filteredEvents.length === 1 ? "400px" : "100%"
               }
               mx={inputValue && filteredEvents.length === 1 ? "auto" : "0"}
-              border="1px solid"
+              // border={`1px solid ${cardBorder}`}
               borderRadius="20px"
               overflow="hidden"
               key={event.id}
@@ -174,7 +204,12 @@ export const EventsPage = () => {
                 to={`/event/${event.id}`}
                 style={{ display: "block", width: "100%", height: "100%" }}
               >
-                <Card.Root w="full" display="flex" flexDirection="column">
+                <Card.Root
+                  w="full"
+                  display="flex"
+                  flexDirection="column"
+                  // bg={cardBg}
+                >
                   <Box
                     w="full"
                     h={{ base: "200px", md: "250px" }}
@@ -194,14 +229,32 @@ export const EventsPage = () => {
                     <Card.Description>{event.description}</Card.Description>
                   </Card.Body>
                   <Card.Footer flexDir="column" alignItems="flex-start">
-                    <Text>Start-Date: {dateFun(event.startTime)}</Text>
-                    <Text>
+                    <Text
+                    // color={textColor}
+                    >
+                      Start-Date: {dateFun(event.startTime)}
+                    </Text>
+                    <Text
+                    //  color={textColor}
+                    >
                       Start-Time:
                       {timeFun(event.startTime)}
                     </Text>
-                    <Text>End-Date: {dateFun(event.endTime)}</Text>
-                    <Text>End-Time: {timeFun(event.endTime)}</Text>
-                    <Text>Catergory: {event.categoryNames.join(", ")}</Text>
+                    <Text
+                    //  color={textColor}
+                    >
+                      End-Date: {dateFun(event.endTime)}
+                    </Text>
+                    <Text
+                    //  color={textColor}
+                    >
+                      End-Time: {timeFun(event.endTime)}
+                    </Text>
+                    <Text
+                    // color={textColor}
+                    >
+                      Catergory: {event.categoryNames.join(", ")}
+                    </Text>
                   </Card.Footer>
                 </Card.Root>
               </Link>

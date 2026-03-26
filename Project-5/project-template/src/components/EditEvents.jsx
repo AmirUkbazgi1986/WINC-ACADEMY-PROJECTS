@@ -6,6 +6,7 @@ import {
   VStack,
   Field,
   Dialog,
+  Checkbox,
 } from "@chakra-ui/react";
 import { useEffect } from "react";
 import { useEvents } from "../Context/Context";
@@ -74,7 +75,7 @@ export default function EditEvents() {
       <Dialog.Positioner>
         <Dialog.Content>
           <Dialog.Header fontWeight="bold" fontSize="20px">
-            Edit Events
+            Edit Event Form
           </Dialog.Header>
           <form onSubmit={handleSubmit(onSubmit)}>
             <Dialog.Body>
@@ -132,20 +133,30 @@ export default function EditEvents() {
                 />
                 <Field.ErrorText>{errors.endTime?.message}</Field.ErrorText>
               </Field.Root>
-              <Field.Root invalid={errors.category} mt={4}>
-                <Field.Label>Category:</Field.Label>
-                <Input
-                  type="number"
-                  min={1}
-                  max={3}
-                  placeholder="Write a number between 1 and 3 ."
-                  {...register("category", {
-                    required: "catergory  is required",
-                    min: { value: 1, message: "minimum value should be 1." },
-                    max: { value: 3, message: "maximum value should be 3." },
-                  })}
-                />
-                <Field.ErrorText>{errors.category?.message}</Field.ErrorText>
+              <Field.Root invalid={errors.categoryIds} mt={4}>
+                <Field.Label>Categories:</Field.Label>
+
+                <VStack align="start" spacing={2}>
+                  {[
+                    { id: 1, name: "Sports" },
+                    { id: 2, name: "Games" },
+                    { id: 3, name: "Relaxation" },
+                  ].map((category) => (
+                    <Checkbox.Root
+                      key={category.id}
+                      value={category.id}
+                      {...register("categoryIds", {
+                        required: "Select at least one category",
+                      })}
+                    >
+                      <Checkbox.HiddenInput />
+                      <Checkbox.Control />
+                      <Checkbox.Label>{category.name}</Checkbox.Label>
+                    </Checkbox.Root>
+                  ))}
+                </VStack>
+
+                <Field.ErrorText>{errors.categoryIds?.message}</Field.ErrorText>
               </Field.Root>
             </Dialog.Body>
 
