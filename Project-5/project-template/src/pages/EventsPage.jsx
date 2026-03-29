@@ -18,12 +18,7 @@ import { useState } from "react";
 import { Link, useNavigation } from "react-router";
 import { useEvents } from "../Context/Context";
 import { EventsListSkeleton } from "../components/EventsListSkeleton";
-// import { useColorModeValue } from "@chakra-ui/react";
-
-// const headingColor = useColorModeValue("gray.800", "whiteAlpha.900");
-// const textColor = useColorModeValue("gray.700", "gray.200");
-// const cardBorder = useColorModeValue("gray.200", "gray.600");
-// const cardBg = useColorModeValue("white", "gray.800");
+import { useColorModeValue } from "../components/ui/color-mode.jsx";
 
 function dateFun(value) {
   const date = new Date(value);
@@ -46,7 +41,13 @@ export const EventsPage = () => {
 
   const navigation = useNavigation();
 
+  const headingColor = useColorModeValue("gray.800", "whiteAlpha.900");
+  const textColor = useColorModeValue("gray.700", "gray.200");
+  const cardBorder = useColorModeValue("gray.200", "gray.600");
+  const cardBg = useColorModeValue("white", "gray.800");
+
   let filteredEvents;
+
   if (!eventsWithCategories) {
     return <EventsListSkeleton />;
   }
@@ -99,7 +100,7 @@ export const EventsPage = () => {
       >
         <Heading
           as={"h1"}
-          // color={headingColor}
+          color={headingColor}
           textAlign={"center"}
           marginTop={"10px"}
           fontSize={"32px"}
@@ -116,8 +117,8 @@ export const EventsPage = () => {
             px="20px"
             py="20px"
             fontSize="18px"
-            // bg={useColorModeValue("white", "gray.700")}
-            // color={useColorModeValue("gray.800", "gray.100")}
+            bg={useColorModeValue("white", "gray.700")}
+            color={useColorModeValue("gray.800", "gray.100")}
           />
         </HStack>
         <VStack align="center" gap={2}>
@@ -138,7 +139,7 @@ export const EventsPage = () => {
                 <Checkbox.HiddenInput />
                 <Checkbox.Control />
                 <Checkbox.Label
-                // color={useColorModeValue("gray.800", "gray.100")}
+                  color={useColorModeValue("gray.800", "gray.100")}
                 >
                   {category.name}
                 </Checkbox.Label>
@@ -150,9 +151,9 @@ export const EventsPage = () => {
                 setSelectedCategories([]);
                 setInputValue("");
               }}
-              // bg={useColorModeValue("blue.500", "blue.400")}
-              // color="white"
-              // _hover={{ bg: useColorModeValue("blue.600", "blue.300") }}
+              bg={useColorModeValue("blue.500", "blue.400")}
+              color="white"
+              _hover={{ bg: useColorModeValue("blue.600", "blue.300") }}
             >
               Clear Filter
             </Button>
@@ -161,12 +162,7 @@ export const EventsPage = () => {
       </Flex>
 
       {filteredEvents.length === 0 ? (
-        <Text
-          textAlign="center"
-          mt="20px"
-          fontSize="lg"
-          // color={textColor}
-        >
+        <Text textAlign="center" mt="20px" fontSize="lg" color={textColor}>
           No events found
         </Text>
       ) : (
@@ -196,6 +192,8 @@ export const EventsPage = () => {
               }
               mx={inputValue && filteredEvents.length === 1 ? "auto" : "0"}
               // border={`1px solid ${cardBorder}`}
+              borderWidth="1px"
+              borderColor={`${cardBorder}`}
               borderRadius="20px"
               overflow="hidden"
               key={event.id}
@@ -206,9 +204,10 @@ export const EventsPage = () => {
               >
                 <Card.Root
                   w="full"
+                  height="100%"
                   display="flex"
                   flexDirection="column"
-                  // bg={cardBg}
+                  bg={cardBg}
                 >
                   <Box
                     w="full"
@@ -225,34 +224,26 @@ export const EventsPage = () => {
                     />
                   </Box>
                   <Card.Body gap={2}>
-                    <Card.Title>{event.title}</Card.Title>
-                    <Card.Description>{event.description}</Card.Description>
+                    <Card.Title color={textColor}>{event.title}</Card.Title>
+                    <Card.Description color={textColor}>
+                      {event.description}
+                    </Card.Description>
                   </Card.Body>
                   <Card.Footer flexDir="column" alignItems="flex-start">
-                    <Text
-                    // color={textColor}
-                    >
+                    <Text color={textColor}>
                       Start-Date: {dateFun(event.startTime)}
                     </Text>
-                    <Text
-                    //  color={textColor}
-                    >
+                    <Text color={textColor}>
                       Start-Time:
                       {timeFun(event.startTime)}
                     </Text>
-                    <Text
-                    //  color={textColor}
-                    >
+                    <Text color={textColor}>
                       End-Date: {dateFun(event.endTime)}
                     </Text>
-                    <Text
-                    //  color={textColor}
-                    >
+                    <Text color={textColor}>
                       End-Time: {timeFun(event.endTime)}
                     </Text>
-                    <Text
-                    // color={textColor}
-                    >
+                    <Text color={textColor}>
                       Catergory: {event.categoryNames.join(", ")}
                     </Text>
                   </Card.Footer>

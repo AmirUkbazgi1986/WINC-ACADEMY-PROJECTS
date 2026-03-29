@@ -12,6 +12,7 @@ import { useEvents } from "../Context/Context";
 import { toaster } from "../components/ui/toaster";
 
 import { useNavigate } from "react-router-dom";
+import { useColorModeValue } from "../components/ui/color-mode.jsx";
 
 function dateFun(value) {
   const date = new Date(value);
@@ -27,8 +28,12 @@ function timeFun(value) {
 export const EventPage = () => {
   const post = useLoaderData();
   const { setEdit, setSelectedEvent, setEvents } = useEvents();
-  console.log(setEdit);
+
   const navigate = useNavigate();
+
+  const textColor = useColorModeValue("gray.700", "gray.200");
+  const cardBorder = useColorModeValue("gray.200", "gray.600");
+  const cardBg = useColorModeValue("white", "gray.800");
 
   const deleteEvent = async (Id) => {
     try {
@@ -71,6 +76,10 @@ export const EventPage = () => {
         overflow="hidden"
         maxW={{ base: "300px", sm: "400px", md: "900px" }}
         margin="50px auto"
+        borderWidth="1px"
+        borderColor={`${cardBorder}`}
+        borderRadius="20px"
+        bg={cardBg}
       >
         <Box
           w={{ base: "full", md: "50%" }}
@@ -89,30 +98,44 @@ export const EventPage = () => {
         </Box>
         <Stack flex="1">
           <Card.Body gap={2}>
-            <Card.Title fontSize="24px">{post.title}</Card.Title>
-            <Card.Description fontSize="16px">
+            <Card.Title fontSize="24px" color={textColor}>
+              {post.title}
+            </Card.Title>
+            <Card.Description fontSize="16px" color={textColor}>
               {post.description}
             </Card.Description>
           </Card.Body>
           <Card.Footer flexDir="column" alignItems="flex-start">
-            <Text>Start-Date: {dateFun(post.startTime)}</Text>
-            <Text>
+            <Text color={textColor}>Start-Date: {dateFun(post.startTime)}</Text>
+            <Text color={textColor}>
               Start-Time:
               {timeFun(post.startTime)}
             </Text>
-            <Text>End-Date: {dateFun(post.endTime)}</Text>
-            <Text>End-Time: {timeFun(post.endTime)}</Text>
-            <Text>Catergory: {post.categoryNames.join(", ")}</Text>
+            <Text color={textColor}>End-Date: {dateFun(post.endTime)}</Text>
+            <Text color={textColor}>End-Time: {timeFun(post.endTime)}</Text>
+            <Text color={textColor}>
+              Catergory: {post.categoryNames.join(", ")}
+            </Text>
             <HStack marginTop="20px" gap={6}>
               <Button
                 onClick={() => {
                   setSelectedEvent(post);
                   setEdit(true);
                 }}
+                bg={useColorModeValue("blue.500", "blue.400")}
+                color="white"
+                _hover={{ bg: useColorModeValue("blue.600", "blue.300") }}
               >
                 Edit Event
               </Button>
-              <Button onClick={() => deleteEvent(post.id)}>Delete Event</Button>
+              <Button
+                onClick={() => deleteEvent(post.id)}
+                bg={useColorModeValue("blue.500", "blue.400")}
+                color="white"
+                _hover={{ bg: useColorModeValue("blue.600", "blue.300") }}
+              >
+                Delete Event
+              </Button>
             </HStack>
           </Card.Footer>
         </Stack>

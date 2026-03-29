@@ -9,6 +9,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { Root } from "./layouts.jsx/Root";
 import { postListLoader, postLoader } from "./loaders/loaders";
 // import { ChakraProvider } from "@chakra-ui/react";
+// import { useColorModeValue } from "./components/ui/color-mode.jsx";
 
 const router = createBrowserRouter([
   {
@@ -16,6 +17,9 @@ const router = createBrowserRouter([
     element: <Root />,
     errorElement: <EventPage />,
     loader: postListLoader,
+    hydrateFallbackElement: (
+      <div style={{ padding: "2rem" }}>Loading page...</div>
+    ),
 
     children: [
       {
