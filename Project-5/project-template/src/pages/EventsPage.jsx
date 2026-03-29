@@ -191,7 +191,6 @@ export const EventsPage = () => {
                 inputValue && filteredEvents.length === 1 ? "400px" : "100%"
               }
               mx={inputValue && filteredEvents.length === 1 ? "auto" : "0"}
-              // border={`1px solid ${cardBorder}`}
               borderWidth="1px"
               borderColor={`${cardBorder}`}
               borderRadius="20px"

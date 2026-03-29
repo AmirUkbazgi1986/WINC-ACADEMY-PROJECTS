@@ -8,8 +8,6 @@ import { Provider } from "./components/ui/provider";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { Root } from "./layouts.jsx/Root";
 import { postListLoader, postLoader } from "./loaders/loaders";
-// import { ChakraProvider } from "@chakra-ui/react";
-// import { useColorModeValue } from "./components/ui/color-mode.jsx";
 
 const router = createBrowserRouter([
   {
@@ -30,7 +28,6 @@ const router = createBrowserRouter([
         path: "/event/:eventId",
         element: <EventPage />,
         loader: postLoader,
-        // action: addComment,
       },
       {
         path: "/contact",
