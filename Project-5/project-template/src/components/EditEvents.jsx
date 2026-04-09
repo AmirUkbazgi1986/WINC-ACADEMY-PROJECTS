@@ -60,7 +60,7 @@ export default function EditEvents() {
         image: selectedEvent.image,
         startTime: formatDateTime(selectedEvent.startTime),
         endTime: formatDateTime(selectedEvent.endTime),
-        category: selectedEvent.categoryIds?.map(String) || [],
+        categoryIds: selectedEvent.categoryIds?.map(String) || [],
       });
     }
   }, [selectedEvent, reset]);

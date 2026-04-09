@@ -15,9 +15,6 @@ const router = createBrowserRouter([
     element: <Root />,
     errorElement: <EventPage />,
     loader: postListLoader,
-    hydrateFallbackElement: (
-      <div style={{ padding: "2rem" }}>Loading page...</div>
-    ),
 
     children: [
       {
