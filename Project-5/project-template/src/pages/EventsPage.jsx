@@ -34,7 +34,7 @@ function timeFun(value) {
 export const EventsPage = () => {
   const [inputValue, setInputValue] = useState("");
   const [selectedCategories, setSelectedCategories] = useState([]);
-  const { events } = useEvents();
+  const { events, isloading } = useEvents();
 
   const eventsWithCategories = events?.eventsWithCategories;
   const categories = events?.categories;
@@ -48,8 +48,16 @@ export const EventsPage = () => {
 
   let filteredEvents;
 
-  if (!eventsWithCategories) {
+  if (isloading) {
     return <EventsListSkeleton />;
+  }
+
+  if (!eventsWithCategories) {
+    return (
+      <Text textAlign="center" mt="20px" fontSize="lg" color={textColor}>
+        No data available
+      </Text>
+    );
   }
 
   if (inputValue) {
@@ -161,7 +169,7 @@ export const EventsPage = () => {
         </VStack>
       </Flex>
 
-      {filteredEvents.length === 0 ? (
+      {filteredEvents?.length === 0 ? (
         <Text textAlign="center" mt="20px" fontSize="lg" color={textColor}>
           No events found
         </Text>
