@@ -13,6 +13,7 @@ import { toaster } from "../components/ui/toaster";
 
 import { useNavigate } from "react-router-dom";
 import { useColorModeValue } from "../components/ui/color-mode.jsx";
+import { VITE_API_BASE_URL } from "../utils/env.js";
 
 function dateFun(value) {
   const date = new Date(value);
@@ -40,7 +41,7 @@ export const EventPage = () => {
       const confirmDelete = window.confirm("Are you sure?");
       if (!confirmDelete) return;
 
-      const res = await fetch(`http://localhost:3000/events/${Id}`, {
+      const res = await fetch(`${VITE_API_BASE_URL}/events/${Id}`, {
         method: "DELETE",
       });
       if (!res.ok) throw new Error("could not delete");
@@ -130,9 +131,9 @@ export const EventPage = () => {
               </Button>
               <Button
                 onClick={() => deleteEvent(post.id)}
-                bg={useColorModeValue("blue.500", "blue.400")}
+                bg={useColorModeValue("red.500", "red.400")}
                 color="white"
-                _hover={{ bg: useColorModeValue("blue.600", "blue.300") }}
+                _hover={{ bg: useColorModeValue("red.600", "red.300") }}
               >
                 Delete Event
               </Button>

@@ -48,10 +48,6 @@ export const EventsPage = () => {
 
   let filteredEvents;
 
-  if (isloading) {
-    return <EventsListSkeleton />;
-  }
-
   if (!eventsWithCategories) {
     return (
       <Text textAlign="center" mt="20px" fontSize="lg" color={textColor}>
@@ -168,7 +164,7 @@ export const EventsPage = () => {
           </HStack>
         </VStack>
       </Flex>
-
+      {isloading && <EventsListSkeleton />}
       {filteredEvents?.length === 0 ? (
         <Text textAlign="center" mt="20px" fontSize="lg" color={textColor}>
           No events found

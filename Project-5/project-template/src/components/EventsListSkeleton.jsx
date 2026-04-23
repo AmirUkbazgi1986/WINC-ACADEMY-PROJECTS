@@ -1,4 +1,11 @@
-import { Grid, GridItem, Skeleton, Stack } from "@chakra-ui/react";
+import {
+  Grid,
+  GridItem,
+  Skeleton,
+  SkeletonText,
+  Stack,
+  VStack,
+} from "@chakra-ui/react";
 
 export const EventsListSkeleton = () => {
   return (
@@ -10,16 +17,25 @@ export const EventsListSkeleton = () => {
         sm: "repeat(2, 1fr)",
         md: "repeat(3, 1fr)",
       }}
+      alignItems="stretch"
       gap={4}
     >
       {[...Array(6)].map((_, i) => (
-        <GridItem key={i} border="1px solid" borderRadius="20px" p={2}>
+        <GridItem
+          key={i}
+          border="1px solid"
+          borderRadius="20px"
+          p={2}
+          minH="530px"
+        >
+          <Skeleton height="250px" borderRadius="10px" mb={3} />
           <Stack>
-            <Skeleton height="200px" borderRadius="10px" />
-            <Skeleton height="20px" />
-            <Skeleton height="20px" />
-            <Skeleton height="15px" />
-            <Skeleton height="15px" />
+            <Stack gap={2} mb={5}>
+              <SkeletonText noOfLines={2} height="20px" />
+            </Stack>
+            <VStack>
+              <SkeletonText noOfLines={5} height="20px" mb={2} />
+            </VStack>
           </Stack>
         </GridItem>
       ))}

@@ -16,6 +16,7 @@ import { useRevalidator } from "react-router-dom";
 import { toaster } from "../components/ui/toaster";
 import { useColorModeValue } from "../components/ui/color-mode.jsx";
 import { useController } from "react-hook-form";
+import { VITE_API_BASE_URL } from "../utils/env.js";
 
 const categories = [
   { id: 1, name: "Sports" },
@@ -45,7 +46,7 @@ export default function CreateEvents() {
 
   const onSubmit = async (data) => {
     try {
-      const res = await fetch("http://localhost:3000/events", {
+      const res = await fetch(`${VITE_API_BASE_URL}/events`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
