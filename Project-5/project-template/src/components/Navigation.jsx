@@ -3,7 +3,7 @@ import { useEvents } from "../Context/Context";
 import { Link as RouterLink } from "react-router";
 
 export const Navigation = () => {
-  const { setOpen } = useEvents();
+  const { setOpen, fetchData } = useEvents();
 
   return (
     <nav>
@@ -20,6 +20,7 @@ export const Navigation = () => {
         <Link
           as={RouterLink}
           to="/"
+          onClick={() => fetchData()}
           textDecoration="none"
           fontSize="26px"
           fontWeight="bold"
@@ -31,6 +32,7 @@ export const Navigation = () => {
           <Link
             as={RouterLink}
             to="/"
+            onClick={() => fetchData()}
             textDecoration="none"
             fontSize="18px"
             fontWeight="bold"

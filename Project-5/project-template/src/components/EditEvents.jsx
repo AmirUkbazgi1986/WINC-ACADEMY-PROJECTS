@@ -12,20 +12,18 @@ import {
 } from "@chakra-ui/react";
 import { useEffect } from "react";
 import { useEvents } from "../Context/Context";
-import { useRevalidator } from "react-router-dom";
+
 import { toaster } from "../components/ui/toaster";
 import { useColorModeValue } from "../components/ui/color-mode.jsx";
 import { useController } from "react-hook-form";
 import { VITE_API_BASE_URL } from "../utils/env.js";
 
-const categories = [
-  { id: 1, name: "Sports" },
-  { id: 2, name: "Games" },
-  { id: 3, name: "Relaxation" },
-];
-
 export default function EditEvents() {
-  const { edit, setEdit, selectedEvent } = useEvents();
+  const { edit, setEdit, selectedEvent, events, fetchData, fetchEventData } =
+    useEvents();
+
+  const categories = events?.categories;
+
   const {
     register,
     handleSubmit,
@@ -39,7 +37,6 @@ export default function EditEvents() {
     },
   });
 
-  const { revalidate } = useRevalidator();
   useEffect(() => {
     if (selectedEvent) {
       const formatDateTime = (dt) => {
@@ -94,7 +91,8 @@ export default function EditEvents() {
         title: "Success",
         description: "Updating was successful",
       });
-      revalidate(); // 🔥 reruns the loader
+      fetchEventData(selectedEvent.id);
+      fetchData();
     } catch (error) {
       console.error(error);
       toaster.create({
@@ -215,10 +213,10 @@ export default function EditEvents() {
                       name={categoryField.field.name}
                     >
                       <VStack align="start" spacing={2}>
-                        {categories.map((category) => (
+                        {categories?.map((category) => (
                           <Checkbox.Root
                             key={category.id}
-                            value={String(category.id)}
+                            value={Number(category.id)}
                           >
                             <Checkbox.HiddenInput />
                             <Checkbox.Control />

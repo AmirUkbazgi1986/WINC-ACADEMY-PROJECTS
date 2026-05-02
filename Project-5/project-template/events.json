@@ -1,16 +1,15 @@
 {
   "events": [
     {
-      "id": "1",
       "title": "Trampoline party",
       "description": "Bounce around with your friends",
       "image": "https://i.pinimg.com/736x/3d/2f/af/3d2faf4e3188d34a9fcdc00df59e77b0.jpg",
       "categoryIds": [
         2
       ],
-      "location": "My back yard",
       "startTime": "2023-03-10T18:00",
-      "endTime": "2023-03-10T17:00:00.000Z"
+      "endTime": "2023-03-10T18:00",
+      "id": "1"
     },
     {
       "title": "Laser Tag mania",
@@ -173,6 +172,17 @@
       "startTime": "2026-04-10T12:30",
       "endTime": "2026-04-11T14:30",
       "id": "54c04cb9-8522-4743-ab46-bb2695b4f6d4"
+    },
+    {
+      "title": "Yoga",
+      "description": "relaxing using yoga",
+      "image": "https://images.unsplash.com/photo-1506126613408-eca07ce68773?q=80&w=799&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "categoryIds": [
+        1
+      ],
+      "startTime": "2026-05-02T01:25",
+      "endTime": "2026-05-03T02:25",
+      "id": "e913e334-106f-4e46-b86a-6666665e4178"
     }
   ],
   "categories": [

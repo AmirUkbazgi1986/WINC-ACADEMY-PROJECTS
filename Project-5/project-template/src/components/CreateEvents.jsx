@@ -12,20 +12,15 @@ import {
 } from "@chakra-ui/react";
 
 import { useEvents } from "../Context/Context";
-import { useRevalidator } from "react-router-dom";
+
 import { toaster } from "../components/ui/toaster";
 import { useColorModeValue } from "../components/ui/color-mode.jsx";
 import { useController } from "react-hook-form";
 import { VITE_API_BASE_URL } from "../utils/env.js";
 
-const categories = [
-  { id: 1, name: "Sports" },
-  { id: 2, name: "Games" },
-  { id: 3, name: "Relaxation" },
-];
-
 export default function CreateEvents() {
-  const { open, setOpen } = useEvents();
+  const { open, setOpen, events, fetchData } = useEvents();
+  const categories = events?.categories;
   const {
     register,
     handleSubmit,
@@ -39,7 +34,6 @@ export default function CreateEvents() {
     },
   });
 
-  const { revalidate } = useRevalidator();
   const textColor = useColorModeValue("gray.700", "gray.200");
   const cardBorder = useColorModeValue("gray.200", "gray.600");
   const cardBg = useColorModeValue("white", "gray.800");
@@ -68,7 +62,7 @@ export default function CreateEvents() {
         title: "Success",
         description: "Adding event was successful",
       });
-      revalidate(); // 🔥 reruns the loader
+      fetchData();
     } catch (error) {
       console.error(error);
       toaster.create({
@@ -100,7 +94,6 @@ export default function CreateEvents() {
                 <Field.Label color={textColor}>Title:</Field.Label>
                 <Input
                   type="text"
-                  step={1}
                   {...register("title", {
                     required: "title is required",
                   })}
@@ -192,10 +185,10 @@ export default function CreateEvents() {
                       name={categoryField.field.name}
                     >
                       <VStack align="start" spacing={2}>
-                        {categories.map((category) => (
+                        {categories?.map((category) => (
                           <Checkbox.Root
                             key={category.id}
-                            value={String(category.id)}
+                            value={Number(category.id)}
                           >
                             <Checkbox.HiddenInput />
                             <Checkbox.Control />

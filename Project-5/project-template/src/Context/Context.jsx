@@ -1,24 +1,64 @@
-import { createContext, useContext, useState, useEffect } from "react";
+import {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  useCallback,
+} from "react";
+import { postListLoader, postLoader } from "../loaders/loaders";
+import ErrorPage from "../components/ErrorPage";
 
 const ContextEvents = createContext();
 
-function ContextProvider({ children, initialEvents }) {
-  const [events, setEvents] = useState(initialEvents);
-  const [isloading, setIsLoading] = useState(false);
+function ContextProvider({ children }) {
+  const [events, setEvents] = useState(null);
+  const [isloading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  const [selectedEvent, setSelectedEvent] = useState(null);
+  const [post, setPost] = useState(null);
 
   const [open, setOpen] = useState(false);
   const [edit, setEdit] = useState(false);
-  const [selectedEvent, setSelectedEvent] = useState(null);
+
+  const fetchEventData = useCallback(async (id) => {
+    try {
+      setIsLoading(true);
+      setError(null); // Reset error before fetching
+      const event = await postLoader(id);
+      setPost(event);
+    } catch (err) {
+      // 2. Catch and store the error object
+      setError(err);
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
+  const fetchData = useCallback(async () => {
+    try {
+      setIsLoading(true);
+      setError(null); // Reset error before fetching
+      const data = await postListLoader();
+      setEvents(data);
+    } catch (err) {
+      // 2. Catch and store the error object
+      setError(err);
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
 
   useEffect(() => {
-    setIsLoading(true);
     const timer = setTimeout(() => {
-      setEvents(initialEvents);
-      setIsLoading(false);
-    }, 300);
-
+      fetchData();
+    }, 5000);
     return () => clearTimeout(timer);
-  }, [initialEvents]);
+  }, [fetchData]);
+
+  if (error) {
+    return <ErrorPage error={error} onRetry={fetchData} />;
+  }
 
   return (
     <ContextEvents.Provider
@@ -29,9 +69,12 @@ function ContextProvider({ children, initialEvents }) {
         setOpen,
         edit,
         setEdit,
+        fetchData,
+        isloading,
         selectedEvent,
         setSelectedEvent,
-        isloading,
+        post,
+        fetchEventData,
       }}
     >
       {children}

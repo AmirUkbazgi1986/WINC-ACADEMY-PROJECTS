@@ -7,14 +7,11 @@ import { Contact } from "./pages/Contact";
 import { Provider } from "./components/ui/provider";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { Root } from "./layouts.jsx/Root";
-import { postListLoader, postLoader } from "./loaders/loaders";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Root />,
-    errorElement: <EventPage />,
-    loader: postListLoader,
 
     children: [
       {
@@ -24,7 +21,6 @@ const router = createBrowserRouter([
       {
         path: "/event/:eventId",
         element: <EventPage />,
-        loader: postLoader,
       },
       {
         path: "/contact",

@@ -7,13 +7,14 @@ import {
   HStack,
   Button,
 } from "@chakra-ui/react";
-import { useLoaderData } from "react-router";
+import { useParams } from "react-router";
 import { useEvents } from "../Context/Context";
 import { toaster } from "../components/ui/toaster";
 
 import { useNavigate } from "react-router-dom";
 import { useColorModeValue } from "../components/ui/color-mode.jsx";
 import { VITE_API_BASE_URL } from "../utils/env.js";
+import { useEffect } from "react";
 
 function dateFun(value) {
   const date = new Date(value);
@@ -27,10 +28,14 @@ function timeFun(value) {
 }
 
 export const EventPage = () => {
-  const post = useLoaderData();
-  const { setEdit, setSelectedEvent, setEvents } = useEvents();
-
+  const { eventId } = useParams();
+  const { setEdit, setEvents, setSelectedEvent, post, fetchEventData } =
+    useEvents();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    fetchEventData(eventId);
+  }, [eventId]);
 
   const textColor = useColorModeValue("gray.700", "gray.200");
   const cardBorder = useColorModeValue("gray.200", "gray.600");
@@ -72,7 +77,7 @@ export const EventPage = () => {
   return (
     <Box>
       <Card.Root
-        key={post.id}
+        key={post?.id}
         flexDirection={{ base: "column", md: "row" }}
         overflow="hidden"
         maxW={{ base: "300px", sm: "400px", md: "900px" }}
@@ -89,8 +94,8 @@ export const EventPage = () => {
           marginRight={{ base: "0", md: "20px" }}
         >
           <Image
-            src={post.image}
-            alt={post.title}
+            src={post?.image}
+            alt={post?.title}
             width="100%"
             height="100%"
             objectFit="cover"
@@ -100,22 +105,24 @@ export const EventPage = () => {
         <Stack flex="1">
           <Card.Body gap={2}>
             <Card.Title fontSize="24px" color={textColor}>
-              {post.title}
+              {post?.title}
             </Card.Title>
             <Card.Description fontSize="16px" color={textColor}>
-              {post.description}
+              {post?.description}
             </Card.Description>
           </Card.Body>
           <Card.Footer flexDir="column" alignItems="flex-start">
-            <Text color={textColor}>Start-Date: {dateFun(post.startTime)}</Text>
+            <Text color={textColor}>
+              Start-Date: {dateFun(post?.startTime)}
+            </Text>
             <Text color={textColor}>
               Start-Time:
-              {timeFun(post.startTime)}
+              {timeFun(post?.startTime)}
             </Text>
-            <Text color={textColor}>End-Date: {dateFun(post.endTime)}</Text>
-            <Text color={textColor}>End-Time: {timeFun(post.endTime)}</Text>
+            <Text color={textColor}>End-Date: {dateFun(post?.endTime)}</Text>
+            <Text color={textColor}>End-Time: {timeFun(post?.endTime)}</Text>
             <Text color={textColor}>
-              Catergory: {post.categoryNames.join(", ")}
+              Catergory: {post?.categoryNames.join(", ")}
             </Text>
             <HStack marginTop="20px" gap={6}>
               <Button

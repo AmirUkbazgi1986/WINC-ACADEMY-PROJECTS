@@ -34,142 +34,53 @@ function timeFun(value) {
 export const EventsPage = () => {
   const [inputValue, setInputValue] = useState("");
   const [selectedCategories, setSelectedCategories] = useState([]);
+  const navigation = useNavigation();
   const { events, isloading } = useEvents();
 
   const eventsWithCategories = events?.eventsWithCategories;
   const categories = events?.categories;
-
-  const navigation = useNavigation();
 
   const headingColor = useColorModeValue("gray.800", "whiteAlpha.900");
   const textColor = useColorModeValue("gray.700", "gray.200");
   const cardBorder = useColorModeValue("gray.200", "gray.600");
   const cardBg = useColorModeValue("white", "gray.800");
 
-  let filteredEvents;
+  let content;
 
-  if (!eventsWithCategories) {
-    return (
+  // 1. loading
+  if (isloading) {
+    content = <EventsListSkeleton />;
+  } else if (!eventsWithCategories) {
+    // 2. data missing
+    content = (
       <Text textAlign="center" mt="20px" fontSize="lg" color={textColor}>
         No data available
       </Text>
     );
-  }
-
-  if (inputValue) {
-    filteredEvents = eventsWithCategories.filter((event) =>
-      event.title.toLowerCase().includes(inputValue.toLowerCase()),
-    );
-  } else if (selectedCategories.length > 0) {
-    filteredEvents = eventsWithCategories.filter((event) =>
-      event.categoryIds.some((categoryId) =>
-        selectedCategories.includes(categoryId),
-      ),
-    );
   } else {
-    filteredEvents = eventsWithCategories;
-  }
+    // compute filteredEvents
+    let filteredEvents = eventsWithCategories;
 
-  function handleChange(e) {
-    const value = e.target.value;
-    setInputValue(value);
-    setSelectedCategories([]);
-  }
-  function handleCategoryChange(e) {
-    const { value, checked } = e.target;
-    if (checked) {
-      // Add the item to the array
-      setSelectedCategories((selectedCategories) => [
-        ...selectedCategories,
-        Number(value),
-      ]);
-      setInputValue("");
-    } else {
-      // Remove the item from the array;
-      setSelectedCategories((selectedCategories) =>
-        selectedCategories.filter((item) => item !== Number(value)),
+    if (inputValue) {
+      filteredEvents = eventsWithCategories.filter((event) =>
+        event.title.toLowerCase().includes(inputValue.toLowerCase()),
+      );
+    } else if (selectedCategories.length > 0) {
+      filteredEvents = eventsWithCategories.filter((event) =>
+        event.categoryIds.some((categoryId) =>
+          selectedCategories.includes(categoryId),
+        ),
       );
     }
-  }
 
-  return (
-    <Container maxW="1300px" minH="100vh">
-      <Flex
-        direction="column"
-        w="full"
-        mx="auto"
-        align="center"
-        gap="20px"
-        p="10px"
-      >
-        <Heading
-          as={"h1"}
-          color={headingColor}
-          textAlign={"center"}
-          marginTop={"10px"}
-          fontSize={"32px"}
-        >
-          List of events
-        </Heading>
-        <HStack>
-          <Input
-            type="text"
-            placeholder="Search events"
-            value={inputValue}
-            onChange={(e) => handleChange(e)}
-            width={{ base: "250px", sm: "300px", md: "500px", lg: "600px" }}
-            px="20px"
-            py="20px"
-            fontSize="18px"
-            bg={useColorModeValue("white", "gray.700")}
-            color={useColorModeValue("gray.800", "gray.100")}
-          />
-        </HStack>
-        <VStack align="center" gap={2}>
-          <Heading as="h2">Category Filters</Heading>
-          <HStack
-            wrap="wrap"
-            justify="center"
-            gap={{ base: "10px", md: "30px" }}
-            margin="20px 0"
-          >
-            {categories?.map((category) => (
-              <Checkbox.Root
-                key={category.id}
-                value={Number(category.id)}
-                checked={selectedCategories.includes(Number(category.id))}
-                onChange={handleCategoryChange}
-              >
-                <Checkbox.HiddenInput />
-                <Checkbox.Control />
-                <Checkbox.Label
-                  color={useColorModeValue("gray.800", "gray.100")}
-                >
-                  {category.name}
-                </Checkbox.Label>
-              </Checkbox.Root>
-            ))}
-
-            <Button
-              onClick={() => {
-                setSelectedCategories([]);
-                setInputValue("");
-              }}
-              bg={useColorModeValue("blue.500", "blue.400")}
-              color="white"
-              _hover={{ bg: useColorModeValue("blue.600", "blue.300") }}
-            >
-              Clear Filter
-            </Button>
-          </HStack>
-        </VStack>
-      </Flex>
-      {isloading && <EventsListSkeleton />}
-      {filteredEvents?.length === 0 ? (
+    if (filteredEvents?.length === 0) {
+      content = (
         <Text textAlign="center" mt="20px" fontSize="lg" color={textColor}>
           No events found
         </Text>
-      ) : (
+      );
+    } else {
+      content = (
         <Grid
           w="full"
           margin={"10px auto"}
@@ -255,7 +166,103 @@ export const EventsPage = () => {
             </GridItem>
           ))}
         </Grid>
-      )}
+      );
+    }
+  }
+  function handleChange(e) {
+    const value = e.target.value;
+    setInputValue(value);
+    setSelectedCategories([]);
+  }
+  function handleCategoryChange(e) {
+    const { value, checked } = e.target;
+    if (checked) {
+      // Add the item to the array
+      setSelectedCategories((selectedCategories) => [
+        ...selectedCategories,
+        Number(value),
+      ]);
+      setInputValue("");
+    } else {
+      // Remove the item from the array;
+      setSelectedCategories((selectedCategories) =>
+        selectedCategories.filter((item) => item !== Number(value)),
+      );
+    }
+  }
+  return (
+    <Container maxW="1300px" minH="100vh">
+      <Flex
+        direction="column"
+        w="full"
+        mx="auto"
+        align="center"
+        gap="20px"
+        p="10px"
+      >
+        <Heading
+          as={"h1"}
+          color={headingColor}
+          textAlign={"center"}
+          marginTop={"10px"}
+          fontSize={"32px"}
+        >
+          List of events
+        </Heading>
+        <HStack>
+          <Input
+            type="text"
+            placeholder="Search events"
+            value={inputValue}
+            onChange={(e) => handleChange(e)}
+            width={{ base: "250px", sm: "300px", md: "500px", lg: "600px" }}
+            px="20px"
+            py="20px"
+            fontSize="18px"
+            bg={useColorModeValue("white", "gray.700")}
+            color={useColorModeValue("gray.800", "gray.100")}
+          />
+        </HStack>
+        <VStack align="center" gap={2}>
+          <Heading as="h2">Category Filters</Heading>
+          <HStack
+            wrap="wrap"
+            justify="center"
+            gap={{ base: "10px", md: "30px" }}
+            margin="20px 0"
+          >
+            {categories?.map((category) => (
+              <Checkbox.Root
+                key={category.id}
+                value={Number(category.id)}
+                checked={selectedCategories.includes(Number(category.id))}
+                onChange={handleCategoryChange}
+              >
+                <Checkbox.HiddenInput />
+                <Checkbox.Control />
+                <Checkbox.Label
+                  color={useColorModeValue("gray.800", "gray.100")}
+                >
+                  {category.name}
+                </Checkbox.Label>
+              </Checkbox.Root>
+            ))}
+
+            <Button
+              onClick={() => {
+                setSelectedCategories([]);
+                setInputValue("");
+              }}
+              bg={useColorModeValue("blue.500", "blue.400")}
+              color="white"
+              _hover={{ bg: useColorModeValue("blue.600", "blue.300") }}
+            >
+              Clear Filter
+            </Button>
+          </HStack>
+        </VStack>
+      </Flex>
+      {content}
     </Container>
   );
 };
