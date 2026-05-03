@@ -72,7 +72,7 @@ export const EventsPage = () => {
         ),
       );
     }
-
+    // Check if filtering resulted in zero items
     if (filteredEvents?.length === 0) {
       content = (
         <Text textAlign="center" mt="20px" fontSize="lg" color={textColor}>

@@ -50,10 +50,7 @@ function ContextProvider({ children }) {
   }, []);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      fetchData();
-    }, 5000);
-    return () => clearTimeout(timer);
+    fetchData();
   }, [fetchData]);
 
   if (error) {
