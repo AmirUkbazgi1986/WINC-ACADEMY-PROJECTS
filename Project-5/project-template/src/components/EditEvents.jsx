@@ -18,6 +18,20 @@ import { useColorModeValue } from "../components/ui/color-mode.jsx";
 import { useController } from "react-hook-form";
 import { VITE_API_BASE_URL } from "../utils/env.js";
 
+const formatDateTime = (dt) => {
+  if (!dt) return "";
+  const date = new Date(dt);
+  const pad = (n) => String(n).padStart(2, "0");
+
+  const YYYY = date.getFullYear();
+  const MM = pad(date.getMonth() + 1);
+  const DD = pad(date.getDate());
+  const HH = pad(date.getHours());
+  const mm = pad(date.getMinutes());
+
+  return `${YYYY}-${MM}-${DD}T${HH}:${mm}`;
+};
+
 export default function EditEvents() {
   const { edit, setEdit, selectedEvent, events, fetchData, fetchEventData } =
     useEvents();
@@ -36,22 +50,26 @@ export default function EditEvents() {
       categoryIds: [],
     },
   });
+  const categoryField = useController({
+    control,
+    name: "categoryIds",
+    defaultValue: [],
+    rules: {
+      validate: (value) => value.length > 0 || "Select at least one category",
+    },
+  });
+
+  const textColor = useColorModeValue("gray.700", "gray.200");
+  const cardBorder = useColorModeValue("gray.200", "gray.600");
+  const cardBg = useColorModeValue("white", "gray.800");
+
+  const buttonBackBg = useColorModeValue("gray.500", "gray.400");
+  const buttonBackHoverBg = useColorModeValue("gray.600", "gray.300");
+  const buttonEditBg = useColorModeValue("blue.500", "blue.400");
+  const buttonEditHoverBg = useColorModeValue("blue.600", "blue.300");
 
   useEffect(() => {
-    if (selectedEvent) {
-      const formatDateTime = (dt) => {
-        if (!dt) return "";
-        const date = new Date(dt);
-        const pad = (n) => String(n).padStart(2, "0");
-
-        const YYYY = date.getFullYear();
-        const MM = pad(date.getMonth() + 1);
-        const DD = pad(date.getDate());
-        const HH = pad(date.getHours());
-        const mm = pad(date.getMinutes());
-
-        return `${YYYY}-${MM}-${DD}T${HH}:${mm}`;
-      };
+    if (selectedEvent && edit) {
       reset({
         title: selectedEvent.title,
         description: selectedEvent.description,
@@ -61,11 +79,7 @@ export default function EditEvents() {
         categoryIds: selectedEvent.categoryIds?.map(String) || [],
       });
     }
-  }, [selectedEvent, reset]);
-
-  const textColor = useColorModeValue("gray.700", "gray.200");
-  const cardBorder = useColorModeValue("gray.200", "gray.600");
-  const cardBg = useColorModeValue("white", "gray.800");
+  }, [selectedEvent, reset, edit]);
 
   const onSubmit = async (data) => {
     try {
@@ -103,18 +117,16 @@ export default function EditEvents() {
   };
 
   return (
-    <Dialog.Root
-      open={edit}
-      onOpenChange={(e) => setEdit(e.open)}
-      borderWidth="1px"
-      borderColor={`${cardBorder}`}
-      borderRadius="20px"
-      bg={cardBg}
-      overflow="hidden"
-    >
+    <Dialog.Root open={edit} onOpenChange={(e) => setEdit(e.open)}>
       <Dialog.Backdrop />
       <Dialog.Positioner>
-        <Dialog.Content>
+        <Dialog.Content
+          borderWidth="1px"
+          borderColor={`${cardBorder}`}
+          borderRadius="20px"
+          bg={cardBg}
+          overflow="hidden"
+        >
           <Dialog.Header fontWeight="bold" fontSize="20px" color={textColor}>
             Edit Event Form
           </Dialog.Header>
@@ -195,40 +207,26 @@ export default function EditEvents() {
 
                 {/* I used AI to help me with this code */}
 
-                {(() => {
-                  const categoryField = useController({
-                    control,
-                    name: "categoryIds",
-                    defaultValue: [],
-                    rules: {
-                      validate: (value) =>
-                        value.length > 0 || "Select at least one category",
-                    },
-                  });
-
-                  return (
-                    <CheckboxGroup
-                      value={categoryField.field.value}
-                      onValueChange={categoryField.field.onChange}
-                      name={categoryField.field.name}
-                    >
-                      <VStack align="start" spacing={2}>
-                        {categories?.map((category) => (
-                          <Checkbox.Root
-                            key={category.id}
-                            value={Number(category.id)}
-                          >
-                            <Checkbox.HiddenInput />
-                            <Checkbox.Control />
-                            <Checkbox.Label color={textColor}>
-                              {category.name}
-                            </Checkbox.Label>
-                          </Checkbox.Root>
-                        ))}
-                      </VStack>
-                    </CheckboxGroup>
-                  );
-                })()}
+                <CheckboxGroup
+                  value={categoryField.field.value}
+                  onValueChange={categoryField.field.onChange}
+                  name={categoryField.field.name}
+                >
+                  <VStack align="start" spacing={2}>
+                    {categories?.map((category) => (
+                      <Checkbox.Root
+                        key={category.id}
+                        value={String(category.id)}
+                      >
+                        <Checkbox.HiddenInput />
+                        <Checkbox.Control />
+                        <Checkbox.Label color={textColor}>
+                          {category.name}
+                        </Checkbox.Label>
+                      </Checkbox.Root>
+                    ))}
+                  </VStack>
+                </CheckboxGroup>
 
                 <Fieldset.ErrorText color={textColor}>
                   {errors.categoryIds?.message}
@@ -243,9 +241,9 @@ export default function EditEvents() {
                   width="full"
                   type="button"
                   onClick={() => setEdit(false)}
-                  bg={useColorModeValue("gray.500", "gray.400")}
+                  bg={buttonBackBg}
                   color="white"
-                  _hover={{ bg: useColorModeValue("gray.600", "gray.300") }}
+                  _hover={{ bg: buttonBackHoverBg }}
                 >
                   Back
                 </Button>
@@ -254,9 +252,9 @@ export default function EditEvents() {
                   colorScheme="blue"
                   isLoading={isSubmitting}
                   width="full"
-                  bg={useColorModeValue("blue.500", "blue.400")}
+                  bg={buttonEditBg}
                   color="white"
-                  _hover={{ bg: useColorModeValue("blue.600", "blue.300") }}
+                  _hover={{ bg: buttonEditHoverBg }}
                 >
                   Submit Edit Event
                 </Button>

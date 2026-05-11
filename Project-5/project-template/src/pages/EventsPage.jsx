@@ -37,13 +37,41 @@ export const EventsPage = () => {
   const navigation = useNavigation();
   const { events, isloading } = useEvents();
 
-  const eventsWithCategories = events?.eventsWithCategories;
-  const categories = events?.categories;
-
   const headingColor = useColorModeValue("gray.800", "whiteAlpha.900");
   const textColor = useColorModeValue("gray.700", "gray.200");
   const cardBorder = useColorModeValue("gray.200", "gray.600");
   const cardBg = useColorModeValue("white", "gray.800");
+
+  const inputBg = useColorModeValue("white", "gray.700");
+  const inputColor = useColorModeValue("gray.800", "gray.100");
+  const buttonBg = useColorModeValue("blue.500", "blue.400");
+  const buttonHoverBg = useColorModeValue("blue.600", "blue.300");
+  const checkboxLabelColor = useColorModeValue("gray.800", "gray.100");
+
+  const eventsWithCategories = events?.eventsWithCategories;
+  const categories = events?.categories;
+
+  function handleChange(e) {
+    const value = e.target.value;
+    setInputValue(value);
+    setSelectedCategories([]);
+  }
+  function handleCategoryChange(e) {
+    const { value, checked } = e.target;
+    if (checked) {
+      // Add the item to the array
+      setSelectedCategories((selectedCategories) => [
+        ...selectedCategories,
+        Number(value),
+      ]);
+      setInputValue("");
+    } else {
+      // Remove the item from the array;
+      setSelectedCategories((selectedCategories) =>
+        selectedCategories.filter((item) => item !== Number(value)),
+      );
+    }
+  }
 
   let content;
 
@@ -169,27 +197,7 @@ export const EventsPage = () => {
       );
     }
   }
-  function handleChange(e) {
-    const value = e.target.value;
-    setInputValue(value);
-    setSelectedCategories([]);
-  }
-  function handleCategoryChange(e) {
-    const { value, checked } = e.target;
-    if (checked) {
-      // Add the item to the array
-      setSelectedCategories((selectedCategories) => [
-        ...selectedCategories,
-        Number(value),
-      ]);
-      setInputValue("");
-    } else {
-      // Remove the item from the array;
-      setSelectedCategories((selectedCategories) =>
-        selectedCategories.filter((item) => item !== Number(value)),
-      );
-    }
-  }
+
   return (
     <Container maxW="1300px" minH="100vh">
       <Flex
@@ -219,8 +227,8 @@ export const EventsPage = () => {
             px="20px"
             py="20px"
             fontSize="18px"
-            bg={useColorModeValue("white", "gray.700")}
-            color={useColorModeValue("gray.800", "gray.100")}
+            bg={inputBg}
+            color={inputColor}
           />
         </HStack>
         <VStack align="center" gap={2}>
@@ -240,9 +248,7 @@ export const EventsPage = () => {
               >
                 <Checkbox.HiddenInput />
                 <Checkbox.Control />
-                <Checkbox.Label
-                  color={useColorModeValue("gray.800", "gray.100")}
-                >
+                <Checkbox.Label color={checkboxLabelColor}>
                   {category.name}
                 </Checkbox.Label>
               </Checkbox.Root>
@@ -253,9 +259,9 @@ export const EventsPage = () => {
                 setSelectedCategories([]);
                 setInputValue("");
               }}
-              bg={useColorModeValue("blue.500", "blue.400")}
+              bg={buttonBg}
               color="white"
-              _hover={{ bg: useColorModeValue("blue.600", "blue.300") }}
+              _hover={{ bg: buttonHoverBg }}
             >
               Clear Filter
             </Button>

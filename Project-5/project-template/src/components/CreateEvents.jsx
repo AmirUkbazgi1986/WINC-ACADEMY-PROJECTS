@@ -34,9 +34,23 @@ export default function CreateEvents() {
     },
   });
 
+  const categoryField = useController({
+    control,
+    name: "categoryIds",
+    defaultValue: [],
+    rules: {
+      validate: (value) => value.length > 0 || "Select at least one category",
+    },
+  });
+
   const textColor = useColorModeValue("gray.700", "gray.200");
   const cardBorder = useColorModeValue("gray.200", "gray.600");
   const cardBg = useColorModeValue("white", "gray.800");
+
+  const backBtnBg = useColorModeValue("gray.500", "gray.400");
+  const backBtnHoverBg = useColorModeValue("gray.600", "gray.300");
+  const submitBtnBg = useColorModeValue("blue.500", "blue.400");
+  const submitBtnHoverBg = useColorModeValue("blue.600", "blue.300");
 
   const onSubmit = async (data) => {
     try {
@@ -73,18 +87,16 @@ export default function CreateEvents() {
   };
 
   return (
-    <Dialog.Root
-      open={open}
-      onOpenChange={(e) => setOpen(e.open)}
-      borderWidth="1px"
-      borderColor={`${cardBorder}`}
-      borderRadius="20px"
-      bg={cardBg}
-      overflow="hidden"
-    >
+    <Dialog.Root open={open} onOpenChange={(e) => setOpen(e.open)}>
       <Dialog.Backdrop />
       <Dialog.Positioner>
-        <Dialog.Content>
+        <Dialog.Content
+          borderWidth="1px"
+          borderColor={`${cardBorder}`}
+          borderRadius="20px"
+          bg={cardBg}
+          overflow="hidden"
+        >
           <Dialog.Header fontSize={"2xl"} fontWeight={"bold"} color={textColor}>
             Create Event Form
           </Dialog.Header>
@@ -167,40 +179,26 @@ export default function CreateEvents() {
 
                 {/* I used AI to help me with this code */}
 
-                {(() => {
-                  const categoryField = useController({
-                    control,
-                    name: "categoryIds",
-                    defaultValue: [],
-                    rules: {
-                      validate: (value) =>
-                        value.length > 0 || "Select at least one category",
-                    },
-                  });
-
-                  return (
-                    <CheckboxGroup
-                      value={categoryField.field.value}
-                      onValueChange={categoryField.field.onChange}
-                      name={categoryField.field.name}
-                    >
-                      <VStack align="start" spacing={2}>
-                        {categories?.map((category) => (
-                          <Checkbox.Root
-                            key={category.id}
-                            value={Number(category.id)}
-                          >
-                            <Checkbox.HiddenInput />
-                            <Checkbox.Control />
-                            <Checkbox.Label color={textColor}>
-                              {category.name}
-                            </Checkbox.Label>
-                          </Checkbox.Root>
-                        ))}
-                      </VStack>
-                    </CheckboxGroup>
-                  );
-                })()}
+                <CheckboxGroup
+                  value={categoryField.field.value}
+                  onValueChange={categoryField.field.onChange}
+                  name={categoryField.field.name}
+                >
+                  <VStack align="start" spacing={2}>
+                    {categories?.map((category) => (
+                      <Checkbox.Root
+                        key={category.id}
+                        value={String(category.id)}
+                      >
+                        <Checkbox.HiddenInput />
+                        <Checkbox.Control />
+                        <Checkbox.Label color={textColor}>
+                          {category.name}
+                        </Checkbox.Label>
+                      </Checkbox.Root>
+                    ))}
+                  </VStack>
+                </CheckboxGroup>
 
                 <Fieldset.ErrorText color={textColor}>
                   {errors.categoryIds?.message}
@@ -215,9 +213,9 @@ export default function CreateEvents() {
                   width="full"
                   type="button"
                   onClick={() => setOpen(false)}
-                  bg={useColorModeValue("gray.500", "gray.400")}
+                  bg={backBtnBg}
                   color="white"
-                  _hover={{ bg: useColorModeValue("gray.600", "gray.300") }}
+                  _hover={{ bg: backBtnHoverBg }}
                 >
                   Back
                 </Button>
@@ -226,9 +224,9 @@ export default function CreateEvents() {
                   colorScheme="blue"
                   isLoading={isSubmitting}
                   width="full"
-                  bg={useColorModeValue("blue.500", "blue.400")}
+                  bg={submitBtnBg}
                   color="white"
-                  _hover={{ bg: useColorModeValue("blue.600", "blue.300") }}
+                  _hover={{ bg: submitBtnHoverBg }}
                 >
                   Submit Event
                 </Button>

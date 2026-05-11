@@ -8,38 +8,46 @@ import {
   Button,
 } from "@chakra-ui/react";
 import { useParams } from "react-router";
+import { useEffect } from "react";
 import { useEvents } from "../Context/Context";
 import { toaster } from "../components/ui/toaster";
 
 import { useNavigate } from "react-router-dom";
 import { useColorModeValue } from "../components/ui/color-mode.jsx";
 import { VITE_API_BASE_URL } from "../utils/env.js";
-import { useEffect } from "react";
+import EventPageSkeleton from "../components/EventPageSkeleton";
 
 function dateFun(value) {
+  if (!value) return "";
   const date = new Date(value);
-  const day = date.toLocaleDateString();
-  return day;
+
+  return isNaN(date.getTime()) ? "" : date.toLocaleDateString();
 }
 function timeFun(value) {
+  if (!value) return "";
   const date = new Date(value);
-  const time = date.toLocaleTimeString();
-  return time;
+
+  return isNaN(date.getTime()) ? "" : date.toLocaleTimeString();
 }
 
 export const EventPage = () => {
   const { eventId } = useParams();
+  const navigate = useNavigate();
   const { setEdit, setEvents, setSelectedEvent, post, fetchEventData } =
     useEvents();
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    fetchEventData(eventId);
-  }, [eventId]);
 
   const textColor = useColorModeValue("gray.700", "gray.200");
   const cardBorder = useColorModeValue("gray.200", "gray.600");
   const cardBg = useColorModeValue("white", "gray.800");
+
+  const buttonEditEventBg = useColorModeValue("blue.500", "blue.400");
+  const buttonEditEventHoveBg = useColorModeValue("blue.600", "blue.300");
+  const buttonDeleteEventBg = useColorModeValue("red.500", "red.400");
+  const buttonDeleteEventHoverBg = useColorModeValue("red.600", "red.300");
+
+  useEffect(() => {
+    fetchEventData(eventId);
+  }, [eventId, fetchEventData]);
 
   const deleteEvent = async (Id) => {
     try {
@@ -73,6 +81,10 @@ export const EventPage = () => {
       });
     }
   };
+
+  if (!post) {
+    return <EventPageSkeleton />;
+  }
 
   return (
     <Box>
@@ -130,17 +142,17 @@ export const EventPage = () => {
                   setSelectedEvent(post);
                   setEdit(true);
                 }}
-                bg={useColorModeValue("blue.500", "blue.400")}
+                bg={buttonEditEventBg}
                 color="white"
-                _hover={{ bg: useColorModeValue("blue.600", "blue.300") }}
+                _hover={{ bg: buttonEditEventHoveBg }}
               >
                 Edit Event
               </Button>
               <Button
                 onClick={() => deleteEvent(post.id)}
-                bg={useColorModeValue("red.500", "red.400")}
+                bg={buttonDeleteEventBg}
                 color="white"
-                _hover={{ bg: useColorModeValue("red.600", "red.300") }}
+                _hover={{ bg: buttonDeleteEventHoverBg }}
               >
                 Delete Event
               </Button>
