@@ -12,17 +12,6 @@
       "id": "1"
     },
     {
-      "title": "Laser Tag mania",
-      "description": "Let's play laser tag!",
-      "image": "https://wincacademy.github.io/webpages/media/lasertag.jpg",
-      "categoryIds": [
-        2
-      ],
-      "startTime": "2023-04-06T18:46",
-      "endTime": "2023-04-06T17:46",
-      "id": "2"
-    },
-    {
       "id": "3",
       "title": "Badminton game",
       "description": "Hit that shuttle!",

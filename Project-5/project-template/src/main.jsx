@@ -6,7 +6,7 @@ import { EventsPage } from "./pages/EventsPage";
 import { Contact } from "./pages/Contact";
 import { Provider } from "./components/ui/provider";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { Root } from "./layouts.jsx/Root";
+import { Root } from "./layouts/Root";
 
 const router = createBrowserRouter([
   {

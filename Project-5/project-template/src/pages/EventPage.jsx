@@ -53,8 +53,9 @@ export const EventPage = () => {
     try {
       const confirmDelete = window.confirm("Are you sure?");
       if (!confirmDelete) return;
+      const stringId = String(Id);
 
-      const res = await fetch(`${VITE_API_BASE_URL}/events/${Id}`, {
+      const res = await fetch(`${VITE_API_BASE_URL}/events/${stringId}`, {
         method: "DELETE",
       });
       if (!res.ok) throw new Error("could not delete");
@@ -68,7 +69,7 @@ export const EventPage = () => {
       setEvents((prev) => ({
         ...prev,
         eventsWithCategories: prev.eventsWithCategories.filter(
-          (event) => event.id !== Id,
+          (event) => String(event.id) !== stringId,
         ),
       }));
 
@@ -101,7 +102,7 @@ export const EventPage = () => {
       >
         <Box
           w={{ base: "full", md: "50%" }}
-          h={{ base: "250px", md: "auto" }}
+          h={{ base: "250px", md: "450px" }}
           overflow="hidden"
           marginRight={{ base: "0", md: "20px" }}
         >
@@ -134,7 +135,7 @@ export const EventPage = () => {
             <Text color={textColor}>End-Date: {dateFun(post?.endTime)}</Text>
             <Text color={textColor}>End-Time: {timeFun(post?.endTime)}</Text>
             <Text color={textColor}>
-              Catergory: {post?.categoryNames.join(", ")}
+              Catergory: {(post?.categoryNames || []).join(", ")}
             </Text>
             <HStack marginTop="20px" gap={6}>
               <Button

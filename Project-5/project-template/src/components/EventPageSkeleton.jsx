@@ -1,11 +1,4 @@
-import {
-  Box,
-  Card,
-  HStack,
-  Stack,
-  Skeleton,
-  SkeletonText,
-} from "@chakra-ui/react";
+import { Box, Card, HStack, Stack, Skeleton } from "@chakra-ui/react";
 
 function EventPageSkeleton() {
   return (
@@ -18,31 +11,40 @@ function EventPageSkeleton() {
         borderWidth="1px"
         borderRadius="20px"
       >
-        <Box w={{ base: "full", md: "50%" }} h={{ base: "250px", md: "450px" }}>
+        <Box
+          w={{ base: "full", md: "50%" }}
+          h={{ base: "250px", md: "450px" }}
+          overflow="hidden"
+          marginRight={{ base: "0", md: "20px" }}
+        >
           <Skeleton height="100%" width="100%" />
         </Box>
 
-        <Stack flex="1" p="6" gap="4">
-          <Card.Body gap={4} p="0">
+        <Stack flex="1">
+          <Card.Body gap={2}>
             {/* Title Skeleton */}
-            <Skeleton height="32px" width="60%" />
+            <Skeleton height="24px" width="60%" my="4px" />
 
             {/* Description Skeleton */}
-            <SkeletonText noOfLines={3} gap="4" />
+            <Stack gap={2} mt="2">
+              <Skeleton height="16px" width="90%" />
+            </Stack>
           </Card.Body>
 
-          <Card.Footer flexDir="column" alignItems="flex-start" p="0" gap={3}>
+          <Card.Footer flexDir="column" alignItems="flex-start">
             {/* Details Lines (Start/End Date, Category) */}
-            <Skeleton height="18px" width="40%" />
-            <Skeleton height="18px" width="45%" />
-            <Skeleton height="18px" width="40%" />
-            <Skeleton height="18px" width="45%" />
-            <Skeleton height="18px" width="50%" />
+            <Stack gap={2} width="100%">
+              <Skeleton height="16px" width="45%" />
+              <Skeleton height="16px" width="40%" />
+              <Skeleton height="16px" width="45%" />
+              <Skeleton height="16px" width="40%" />
+              <Skeleton height="16px" width="50%" />
+            </Stack>
 
             {/* Buttons Skeleton */}
-            <HStack marginTop="20px" gap={6} w="full">
-              <Skeleton height="40px" width="120px" borderRadius="md" />
-              <Skeleton height="40px" width="120px" borderRadius="md" />
+            <HStack marginTop="20px" gap={6}>
+              <Skeleton height="40px" width="110px" borderRadius="md" />
+              <Skeleton height="40px" width="125px" borderRadius="md" />
             </HStack>
           </Card.Footer>
         </Stack>
